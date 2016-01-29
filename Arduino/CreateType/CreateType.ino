@@ -1,21 +1,16 @@
 /*
-  String indexOf() and lastIndexOf() functions
+ Primeras pruebas para identificar los mensajes que le llgan al bluetooth
 
- Examples of how to evaluate, look for, and replace characters in a String
-
- created 27 July 2010
- modified 2 Apr 2012
- by Tom Igoe
-
- http://www.arduino.cc/en/Tutorial/StringIndexOf
-
- This example code is in the public domain.
  */
+
+ //Con struct, creamos nuestro tipo 
  struct MyOrder{
    String Move = "";
    int Value;
  } MyOrder;
- 
+ // Aquí definimos el tipo de caracter que queremos buscar
+ //Lo hemos hecho con una variable por si en un futuro necesitamos
+ // más está función
  String character = ".";
  
 
@@ -27,10 +22,14 @@ void setup() {
 void loop() {
   // indexOf() returns the position (i.e. index) of a particular character
   // in a string. For example, if you were parsing HTML tags, you could use it:
+
   String stringOne = "move.50";
+
   int DotPos = stringOne.indexOf(character);
   Serial.println("The index of " + character + "in the string " + stringOne + " is " + DotPos);
+
   // Hasta aqui la funcion de buscar punto
+  //Futura función para meter las órdenes y valores en nuestro tipo
   for(int i=0; i<DotPos; i++){
     MyOrder.Move = MyOrder.Move + stringOne[i];
    }
