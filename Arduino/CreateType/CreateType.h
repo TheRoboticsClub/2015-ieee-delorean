@@ -7,7 +7,7 @@ class CreateType{
 	   		int Value= 0;
  		};
  		*/
- 		 suma (int value);
+ 		 int suma (int value);
 		//AddMyType(String MyStr);
 
 	private:
