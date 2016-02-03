@@ -1,0 +1,5 @@
+-First you have to install this library
+-Put the library in this direction(linux): usr/share/arduino/libraries
+-You have to create the folder CreateType you can do it with the command sudo mkdir "CreateType"
+-To copy the library, you can do this: sudo chmod 777 "CreaType" and then copy or with the command sudo cp 
+

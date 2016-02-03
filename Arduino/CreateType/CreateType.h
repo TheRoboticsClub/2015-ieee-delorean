@@ -1,8 +1,5 @@
-#ifndef CreateType
-#define CreateType
-
-
 #include <Arduino.h>;
+
 class CreateType{
 	public:
 		/*struct Order{
@@ -10,7 +7,7 @@ class CreateType{
 	   		int Value= 0;
  		};
  		*/
- 		suma (int value);
+ 		 suma (int value);
 		//AddMyType(String MyStr);
 
 	private:
@@ -20,4 +17,3 @@ class CreateType{
 		//Order _MyOrder;
 
 };
-#endif 
