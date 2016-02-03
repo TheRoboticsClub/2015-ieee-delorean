@@ -2,18 +2,15 @@
 
 class CreateType{
 	public:
-		/*struct Order{
+		struct Order{
 	   		String Move = "";
 	   		int Value= 0;
  		};
- 		*/
- 		 int suma (int value);
-		//AddMyType(String MyStr);
+ 		
+		Order AddMyType(String MyStr);
 
 	private:
-
-		int _value;
-		//String _MyStr;
-		//Order _MyOrder;
+		String _MyStr;
+		Order _MyOrder;
 
 };
