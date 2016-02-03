@@ -1,11 +1,12 @@
 //http://www.youtube.com/user/greatscottlab
 #include <Servo.h> //Librera para controlar los servos
+#include <CreateType.h>
+
 Servo servogiro;
 Servo variador;
 
 int motorpin = 5;
 //int pos = 0;
-int ledred=12;
 int tx=1;
 int rx=0;
 char inSerial[15];
@@ -18,7 +19,6 @@ void setup(){
   //aqui declaramos los conectores del Arduino
   
   Serial.begin(9600);
-  pinMode(ledred, OUTPUT);
   pinMode(tx, OUTPUT);
   pinMode(rx, INPUT);
   pinMode(datreceptor,INPUT);
@@ -59,7 +59,7 @@ void Check_Protocol(char inStr[]){
         inStr[m]=0;}
          i=0;}
     
-    angulo=constrain(angulo,0,180); //con esto decimos que el ngulo va de 0-180    
+    angulo=constrain(angulo,0,180); //con esto decimos que el angulo va de 0-180    
     servogiro.write(angulo);              // tell servo to go to position in variable 'pos' 
            
     if(!strcmp(inStr,"move")){     //Manejo del variador
