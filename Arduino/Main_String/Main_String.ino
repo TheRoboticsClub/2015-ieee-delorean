@@ -60,7 +60,7 @@ void Check_Protocol(String inStr){
     if(MyOrder.Move == "giro"){
       Serial.print("Turn ");
       Serial.print(MyOrder.Value);
-      Serial.println(" degrees.");
+      Serial.println(" degrees");
       angulo+=MyOrder.Value; // Use of rotations
       inStr="";             // Reset inStr 
     }
@@ -77,14 +77,14 @@ void Check_Protocol(String inStr){
          
       variador.writeMicroseconds(go);
     }
-    if(MyOrder.Move =="stop"){ //parada de emergencia
-    
-      go =1500;
+    if(MyOrder.Move == "stop"){ //parada de emergencia
+      Serial.println("Stopped");
+      go = 1500;
       variador.writeMicroseconds(go);
       inStr = "";
-      Serial.println("stopped");
+      
     }        
     else{
     inStr = "";
-}}
-  
+    }
+  }  
