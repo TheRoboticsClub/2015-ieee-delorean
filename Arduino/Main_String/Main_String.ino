@@ -57,20 +57,21 @@ void Check_Protocol(String inStr){
   //Serial.println(MyOrder.Move);
   //Serial.println(MyOrder.Value);
     
-    if(MyOrder.Move == "giro"){
+    if(MyOrder.Move == "turn"){
       Serial.print("Turn ");
       Serial.print(MyOrder.Value);
       Serial.println(" degrees");
-      angulo+=MyOrder.Value; // Use of rotations
+
+      angulo=MyOrder.Value; // Use of rotations
       inStr="";             // Reset inStr 
     }
     
-    angulo=constrain(angulo,0,180); //con esto decimos que el angulo va de 0-180    
+    angulo=constrain(angulo,45,135); //con esto decimos que el angulo va de 0-180    
     servogiro.write(angulo);              // tell servo to go to position in variable 'pos' 
            
     if(MyOrder.Move == "move"){     //Manejo del variador
       // en esta condición manejamos el variador
-      go = go + MyOrder.Value;
+      go = 1500 + MyOrder.Value;
       Serial.print("Speed: ");
       Serial.println(go);
       inStr = "";

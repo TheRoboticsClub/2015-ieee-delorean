@@ -16,7 +16,7 @@
 
   //puts order and value into the type
   if (DotPos == -1){
-    for(int i=0; i<MyStr.length()-2; i++){ // Length - 2 because otherwise take CR and LF too
+    for(int i=0; i<MyStr.length()/*-2*/; i++){ // Length - 2 because otherwise take CR and LF too
       MyOrder.Move = MyOrder.Move + MyStr[i];
     }
   }
