@@ -4,7 +4,6 @@ GPIO.setmode(GPIO.BCM)
 
 led = 5
 
-cd
 GPIO.setup(led,GPIO.OUT)
 try:
 
