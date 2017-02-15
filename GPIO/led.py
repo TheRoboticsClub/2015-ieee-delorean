@@ -10,14 +10,16 @@ try:
 	for i in range(0,5):
 
 		GPIO.output(led,1)
-		sleep(0.5)
+		sleep(0.25)
 		GPIO.output(led,0)
+		sleep(0.25)
+
 
 	GPIO.output(led,0)
 	GPIO.cleanup
 	print ("El programa ha terminado de ejecutar")
 
-except keyboardinterrupt:
+except KeyboardInterrupt:
 	GPIO.output(led,0)
 	GPIO.cleanup
 	print("Se ha interrmpido la ejecucion")
