@@ -1,10 +1,10 @@
 
 #include <Ultrasonic.h>
 
-#define TRIGGER_PIN  1 //6 
-#define ECHO_PIN     2 //7
+#define TRIGGER_PIN  6 //1
+#define ECHO_PIN     7 //2
 
-int tx = 0; //13
+int tx = 13; //0
 
 Ultrasonic ultrasonic(TRIGGER_PIN, ECHO_PIN);
 
@@ -22,11 +22,10 @@ void loop()
 
   cmMsec = ultrasonic.convert(microsec, Ultrasonic::CM);
   inMsec = ultrasonic.convert(microsec, Ultrasonic::IN);
-    if(cmMsec < 5){
+    if(cmMsec >= 1 && cmMsec <= 5){
       digitalWrite(tx, HIGH);
     }else{
       digitalWrite(tx, LOW);
     }
-    //Serial.write(int(cmMsec));
     delay(50);
   }
