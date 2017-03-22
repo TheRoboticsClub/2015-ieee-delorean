@@ -16,7 +16,7 @@ class Getch:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         return ch
 
-def check_angulo(angulo,valor):
+def set_angulo(angulo,valor):
 
     angulo += valor
 
@@ -44,28 +44,29 @@ while True:
     comando = getch()
     #comando = raw_input('Introduce un comando: ') #Input
     if comando == 'w':
-        speed += 1 
+        speed += 10 
         command = 'move.%d' % speed
         
         print('LED ENCENDIDO')
     elif comando == 's':
         
-        speed -= 1
+        speed -= 10
         command = 'move.%d' % speed
 
         print('LED APAGADO')
     elif comando == 'a':
-        w =check_angulo(w,-5)
+        w =set_angulo(w,-5)
 
         command = 'turn.%d' % w
 
 
     elif comando == 'd':
-        w =check_angulo(w,5)
+        w =set_angulo(w,5)
         command = 'turn.%d' % w
 
     elif comando == ' ':
         command = 'stop'
+        speed = 0
 
     else: 
         continue
