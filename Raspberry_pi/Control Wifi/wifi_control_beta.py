@@ -91,7 +91,7 @@ while True:
     else: 
         continue
 
-    arduino.write(command) #con esto paso la instrucción a la raspberry
+    arduino.write(command+'\n') #con esto paso la instrucción a la raspberry
 
 
 
