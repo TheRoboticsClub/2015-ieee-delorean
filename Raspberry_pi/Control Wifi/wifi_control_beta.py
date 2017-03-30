@@ -31,7 +31,7 @@ def set_speed(speed,valor,capado):
 
     speed += valor
 
-    if speed > 1600 adn capado == True:
+    if speed > 1600 and capado == True:
         speed = 1600
     elif speed < 1400 and capado == True:
         speed = 1400

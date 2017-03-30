@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import serial
+#import serial
 
 class Getch:
     def __init__(self):
@@ -27,7 +27,7 @@ def set_angulo(angulo,valor):
 
     return angulo
 
-arduino = serial.Serial('/dev/ttyACM0', 9600)
+#arduino = serial.Serial('/dev/ttyACM0', 9600)
 
 getch = Getch()
 
@@ -72,11 +72,11 @@ while True:
     else: 
         continue
 
-    arduino.write(command) #con esto paso la instrucción a la raspberry
+    #arduino.write(command) #con esto paso la instrucción a la raspberry
 
 
 
 
 
 
-arduino.close() #Finalizamos la comunicacion
+#arduino.close() #Finalizamos la comunicacion
