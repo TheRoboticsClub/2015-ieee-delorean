@@ -40,7 +40,7 @@ def set_speed(speed,valor,capado):
 
 
 
-arduino = serial.Serial('/dev/ttyACM0', 9600)
+arduino = serial.Serial('/dev/ttyUSB0', 9600)
 
 getch = Getch()
 
@@ -48,7 +48,7 @@ print("Starting!")
 print("Introduzca un comnado")
 
 
-speed = 0 #Velocidad del coche
+speed = 1500 #Velocidad del coche 1500 es velocidad 0
 w = 90 #Ángulo de giro, 90 es el medio.
 capado = True 
 
@@ -81,17 +81,21 @@ while True:
         speed = 1500
         command = str(speed)
 
-    elif comando == 'v'
+    elif comando == 'v':
         capado = False
 
-    elif comando == 'c'
+    elif comando == 'c':
         capado = True
+
+    elif comando == 't':
+         w = 90
+         command = w
 
 
     else: 
         continue
 
-    arduino.write(command+'\n') #con esto paso la instrucción a la raspberry
+    arduino.write(command) #con esto paso la instrucción a la raspberry
 
 
 
