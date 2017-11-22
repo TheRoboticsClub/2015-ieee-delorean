@@ -1,0 +1,8 @@
+prefix=/home/delorean/catkin_ws/devel
+
+Name: carcontrol
+Description: Description of carcontrol
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/delorean/catkin_ws/devel/lib 
+Requires: 
