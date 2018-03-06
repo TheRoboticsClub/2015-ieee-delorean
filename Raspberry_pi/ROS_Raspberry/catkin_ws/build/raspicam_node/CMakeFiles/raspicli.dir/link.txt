@@ -1,2 +1,2 @@
-/usr/bin/ar qc /home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/lib/libraspicli.a  CMakeFiles/raspicli.dir/src/RaspiCLI.cpp.o
-/usr/bin/ranlib /home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/lib/libraspicli.a
+/usr/bin/ar qc /home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/lib/libraspicli.a  CMakeFiles/raspicli.dir/src/RaspiCLI.cpp.o
+/usr/bin/ranlib /home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/lib/libraspicli.a

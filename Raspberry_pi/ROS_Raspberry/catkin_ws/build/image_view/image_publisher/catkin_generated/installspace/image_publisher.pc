@@ -1,8 +1,0 @@
-prefix=/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install
-
-Name: image_publisher
-Description: Description of image_publisher
-Version: 1.12.22
-Cflags: -I/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install/include
-Libs: -L/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install/lib 
-Requires: 
