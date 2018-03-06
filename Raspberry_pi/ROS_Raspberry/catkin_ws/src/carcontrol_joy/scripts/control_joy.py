@@ -44,7 +44,7 @@ def callback(data):
 def start():
     # publishing to "turtle1/cmd_vel" to control turtle1
     global pub
-    pub = rospy.Publisher('turtle1/cmd_vel', Twist)
+    pub = rospy.Publisher('/arduino/cmd_vel', Twist)
     # subscribed to joystick inputs on topic "joy"
     rospy.Subscriber("joy", Joy, callback)
     # starts the node

@@ -38,7 +38,7 @@ def movimiento(tipo, pub, valor, estado_coche):
 
 
 def talker():
-    pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
+    pub = rospy.Publisher('/arduino/cmd_vel', Twist, queue_size=10)
     rospy.init_node('controlteclas', anonymous=True)
     estado_coche = Twist()
     estado_coche.linear.x = 0.5
