@@ -1,0 +1,8 @@
+prefix=/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install
+
+Name: carcontrol
+Description: Description of carcontrol
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install/lib 
+Requires: 
