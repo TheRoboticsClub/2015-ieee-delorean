@@ -67,14 +67,14 @@ set(raspicam_node_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("TRUE" STREQUAL "TRUE")
-  set(raspicam_node_SOURCE_PREFIX /home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/src/raspicam_node)
-  set(raspicam_node_DEVEL_PREFIX /home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel)
+  set(raspicam_node_SOURCE_PREFIX /home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/src/raspicam_node)
+  set(raspicam_node_DEVEL_PREFIX /home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel)
   set(raspicam_node_INSTALL_PREFIX "")
   set(raspicam_node_PREFIX ${raspicam_node_DEVEL_PREFIX})
 else()
   set(raspicam_node_SOURCE_PREFIX "")
   set(raspicam_node_DEVEL_PREFIX "")
-  set(raspicam_node_INSTALL_PREFIX /home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install)
+  set(raspicam_node_INSTALL_PREFIX /home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install)
   set(raspicam_node_PREFIX ${raspicam_node_INSTALL_PREFIX})
 endif()
 
@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(raspicam_node_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "/home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/include;/home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/src/raspicam_node/include " STREQUAL " ")
+if(NOT "/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/include;/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/src/raspicam_node/include " STREQUAL " ")
   set(raspicam_node_INCLUDE_DIRS "")
-  set(_include_dirs "/home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/include;/home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/src/raspicam_node/include")
+  set(_include_dirs "/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/include;/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/src/raspicam_node/include")
   foreach(idir ${_include_dirs})
     if(IS_ABSOLUTE ${idir} AND IS_DIRECTORY ${idir})
       set(include ${idir})
@@ -103,7 +103,7 @@ if(NOT "/home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Ras
         message(FATAL_ERROR "Project 'raspicam_node' specifies '${idir}' as an include dir, which is not found.  It does not exist in '${include}'.  Ask the maintainer 'Rohan Agrawal <send2arohan@gmail.com>, Wayne Gramlich <wayne@gramlich.net>' to fix it.")
       endif()
     else()
-      message(FATAL_ERROR "Project 'raspicam_node' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/src/raspicam_node/${idir}'.  Ask the maintainer 'Rohan Agrawal <send2arohan@gmail.com>, Wayne Gramlich <wayne@gramlich.net>' to fix it.")
+      message(FATAL_ERROR "Project 'raspicam_node' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/src/raspicam_node/${idir}'.  Ask the maintainer 'Rohan Agrawal <send2arohan@gmail.com>, Wayne Gramlich <wayne@gramlich.net>' to fix it.")
     endif()
     _list_append_unique(raspicam_node_INCLUDE_DIRS ${include})
   endforeach()
@@ -122,7 +122,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/lib;/home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/lib;/opt/ros/kinetic/lib)
+    foreach(path /home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/lib;/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/lib;/opt/ros/kinetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

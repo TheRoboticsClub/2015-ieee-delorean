@@ -12,16 +12,16 @@ try:
     from catkin.environment_cache import generate_environment_script
 except ImportError:
     # search for catkin package in all workspaces and prepend to path
-    for workspace in "/home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel;/opt/ros/kinetic".split(';'):
+    for workspace in "/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel;/opt/ros/kinetic".split(';'):
         python_path = os.path.join(workspace, 'lib/python2.7/dist-packages')
         if os.path.isdir(os.path.join(python_path, 'catkin')):
             sys.path.insert(0, python_path)
             break
     from catkin.environment_cache import generate_environment_script
 
-code = generate_environment_script('/home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/env.sh')
+code = generate_environment_script('/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/env.sh')
 
-output_filename = '/home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/build/catkin_generated/setup_cached.sh'
+output_filename = '/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/build/catkin_generated/setup_cached.sh'
 with open(output_filename, 'w') as f:
     #print('Generate script for cached setup "%s"' % output_filename)
     f.write('\n'.join(code))

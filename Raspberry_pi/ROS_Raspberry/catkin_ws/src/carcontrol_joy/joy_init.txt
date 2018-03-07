@@ -1,0 +1,16 @@
+sudo apt-get install ros-kinetic-joy
+ls -l /dev/input/js0
+sudo chmod a+rw /dev/input/js0
+rosparam set joy_node/dev "/dev/input/js0"
+
+init joy reader node:
+
+rosrun joy joy_node
+
+see topic
+
+rostopic echo joy
+
+to init car joy node with bonding:
+
+rosrun carcontrol_joy control_joy.py

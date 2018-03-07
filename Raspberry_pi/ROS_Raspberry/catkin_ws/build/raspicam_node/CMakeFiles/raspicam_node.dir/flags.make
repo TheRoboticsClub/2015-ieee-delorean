@@ -6,5 +6,5 @@ CXX_FLAGS =
 
 CXX_DEFINES = -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\"raspicam_node\"
 
-CXX_INCLUDES = -I/home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/include -I/home/delorean/Escritorio/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/src/raspicam_node/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/include/opencv-3.2.0-dev -I/opt/ros/kinetic/include/opencv-3.2.0-dev/opencv -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/home/pi/userland -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux 
+CXX_INCLUDES = -I/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/include -I/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/src/raspicam_node/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/include/opencv-3.2.0-dev -I/opt/ros/kinetic/include/opencv-3.2.0-dev/opencv -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/home/pi/userland -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux 
 
