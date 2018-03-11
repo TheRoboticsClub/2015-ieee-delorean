@@ -1,0 +1,46 @@
+to start gps driver that publishes sensor_msgs/NavSatFix  do this:
+
+rosrun nmea_navsat_driver nmea_serial_driver _port:=/dev/ttyUSB0 _baud:=115200
+
+------aditional information--------------------------------------------
+
+    Baud Rate: 4800/9600/14400/19200/38400/57600/115200 bps (Bluetooth), 115200 (USB)
+    Output Message: NMEA 0183 v3.01(Default: GGA, GSA, GSV, RMC)
+    
+in our case, our GPS has 115200 baud rate via USB connection on port /dev/ttyUSB0. Bluetooth connection
+has several baud rates: 4800/9600/14400/19200/38400/57600/115200
+
+    
+ thatś why we use NMEA gps driver. gpsd_client can work too, but we had a problem trying to run the gpsd_client client.cpp node.
+ 
+ -------------------------------------------------------
+
+if you get port permission denied error, you must check this:
+
+groups <your_username>
+
+if your username does not appear in the list, then do this:
+
+sudo gpasswd --add <your_username>
+cd <your_node_directory>
+chmod +x <your_node>
+
+the, you should be able to launch the nmea driver. You can check if all is good with:
+
+rostopic list <---------------this should show you several topics, but we are interested in /fix , /vel and /time_reference
+
+to see sensor_msgs/NavSatFix messages on /fix topic, we can do:
+
+rostopic echo /fix
+
+and you should see the messages. 
+
+(optional) If we want UTM-encoded position, we can run another node that takes NavSatFix messages and publishes nav_msgs/Odometry
+messages
+
+rosrun gps_common utm_odometry_node
+
+now, to check Odometry messages, we can do:
+
+rostopic echo /odom
+
