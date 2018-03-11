@@ -1,8 +1,8 @@
-prefix=/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install
+prefix=/home/sauron/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install
 
 Name: usb_cam
 Description: Description of usb_cam
 Version: 0.3.6
-Cflags: -I/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install/include
-Libs: -L/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install/lib -lusb_cam
+Cflags: -I/home/sauron/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install/include
+Libs: -L/home/sauron/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install/lib -lusb_cam
 Requires: 

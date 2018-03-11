@@ -1,2 +1,2 @@
 carcontrol:carcontrol_joy:range_tester:usb_cam
--DCATKIN_DEVEL_PREFIX=/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install -G Unix Makefiles
+-DCATKIN_DEVEL_PREFIX=/home/sauron/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/sauron/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install -G Unix Makefiles

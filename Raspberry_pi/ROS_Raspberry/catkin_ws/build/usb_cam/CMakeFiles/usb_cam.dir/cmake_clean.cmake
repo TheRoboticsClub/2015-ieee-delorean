@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/usb_cam.dir/src/usb_cam.cpp.o"
-  "/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/lib/libusb_cam.pdb"
-  "/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/lib/libusb_cam.so"
+  "/home/sauron/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/lib/libusb_cam.pdb"
+  "/home/sauron/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/devel/lib/libusb_cam.so"
 )
 
 # Per-language clean rules from dependency scanning.
