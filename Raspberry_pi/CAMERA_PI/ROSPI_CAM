@@ -1,0 +1,30 @@
+Crear nodo ros de vidion a tiempo real de la picam.
+
+
+git clone https://github.com/dganbold/raspicam_node.git
+
+
+*Crea el paquete Ros
+
+cd ~/catkin_ws/
+catkin_make --pkg raspicam_node
+
+*Primero se lanza la aplicacion de la camara
+
+source devel/setup.bash
+roslaunch raspicam_node camera_module_v2_640x480_30fps.launch
+
+*Segundo ejecutas el comienzo de captura
+
+rosservice call /raspicam_node/start_capture
+
+
+*Para visualizar la imagen:
+
+rosrun image_view image_view image:=/raspicam_node/image_raw
+
+
+*Para modificar los parametros:
+
+rosrun rqt_reconfigure rqt_reconfigure 
+
