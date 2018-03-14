@@ -22,8 +22,7 @@ def formed():
 def broken():
     print "Lost connection with car node"
 
-def mapping(axis):
-    
+def mapsteering(axis):
     aux_axis = 0.5
     
     if axis >= 0.0:
@@ -41,12 +40,67 @@ def mapping(axis):
         else:
             return aux_axis
 
+    
 
-def callback(data):
+def mapthrottle(axis, currentgear):
+    aux_axis = 0.5
+    
+    if axis >= 0.0:
+        aux_axis = abs((axis/2.0) + 0.5)
+        if aux_axis >= 1.0:
+            return 1.0
+
+        else:
+            if currentgear == 0:
+                if aux_axis < 0.6:
+                    return aux_axis
+                else:
+                    return 0.6
+            return 0.5
+           
+    else:
+        aux_axis = abs((abs(axis)/2.0) - 0.5)
+        if aux_axis <= 0.0:
+            return 0.0
+        elif aux_axis < 0.5:
+            return aux_axis
+        else:
+            aux_axis = 0.5
+            return aux_axis
+
+def changegear(data, buttonstate):
+    
+    geardown = data.buttons[10]
+    gearup = data.buttons[11]
+    
+    if gearup == 1 and buttonstate.r1 == 0 and buttonstate.currentgear < 3:
+        rospy.loginfo('boton pulsado')
+        buttonstate.r1 = 1
+        buttonstate.currentgear += 1
+        
+    elif gearup == 0 and buttonstate.r1 == 1:
+        rospy.loginfo('devuelvo el boton a 0')
+        buttonstate.r1 = 0
+
+
+    if geardown == 1 and buttonstate.l1 == 0 and buttonstate.currentgear > 0:
+        rospy.loginfo('boton pulsado')
+        buttonstate.l1 = 1
+        buttonstate.currentgear -= 1
+        
+    elif geardown == 0 and buttonstate.l1 == 1:
+        rospy.loginfo('devuelvo el boton a 0')
+        buttonstate.l1 = 0
+
+    
+    rospy.loginfo(buttonstate.currentgear)
+
+def callback(data, buttonstate):
+    
+    changegear(data, buttonstate)
     twist = Twist()
-
-    twist.linear.x = mapping(data.axes[3])
-    twist.angular.z = mapping(-data.axes[0])
+    twist.linear.x = mapthrottle(data.axes[3], buttonstate.currentgear)
+    twist.angular.z = mapsteering(-data.axes[0])
     rospy.loginfo(twist)
     pub.publish(twist)
 
@@ -56,7 +110,18 @@ def start():
     global pub
     pub = rospy.Publisher('/arduino/cmd_vel', Twist, queue_size=10)
     # subscribed to joystick inputs on topic "joy"
-    rospy.Subscriber("joy", Joy, callback)
+    
+    class button:
+        l1 = 0
+        r1 = 0
+        currentgear = 0
+    
+    
+    buttonstate = button()
+    buttonstate.r1 = 0
+    buttonstate.l1 = 0
+    buttonstate.currentgear = 0
+    rospy.Subscriber("joy", Joy, callback, buttonstate)
     # starts the node
     rospy.init_node('Joy2Turtle')
     b = bondpy.Bond("car_controller_heartbeat","bond_1", on_broken=broken, on_formed=formed)
@@ -64,5 +129,6 @@ def start():
     rospy.spin()
 
 if __name__ == '__main__':
+
     start()
     
