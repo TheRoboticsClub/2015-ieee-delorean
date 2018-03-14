@@ -1,4 +1,6 @@
-to start gps driver that publishes sensor_msgs/NavSatFix  do this:
+To start gps driver that publishes sensor_msgs/NavSatFix  do this:
+
+First of all, run roscore
 
 rosrun nmea_navsat_driver nmea_serial_driver _port:=/dev/ttyUSB0 _baud:=115200
 
