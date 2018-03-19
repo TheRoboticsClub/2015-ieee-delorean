@@ -1,4 +1,18 @@
 sudo apt-get install ros-kinetic-joy
+
+(following commands assume your ps3 controller is recognized by your system as js0. Depending on
+your linux distribution this may vary, being js0 the gyroscopic axis and js1 the controller itself
+with the buttons, joystick etc. To check what your system do, run this):
+
+sudo jstest /dev/input/js0
+sudo jstest /dev/input/js1
+
+(any of this 2 commands will show controllers axis. If, for example, you run with js0 and it only shows 3 axis in the first array and it only changes value if you shake the controller, that means that your system picks up gyroscope as js0 and therefore you must use js1 for all the commands listed below to tell the system that you
+want to use the controller's button and joysticks. If, for example, you run js0 and this shows you a lot of axis and button array and they change when you press or
+move joysticks, that means that your system is recognizing that the controller itself is in the js0 device and therefore you want to use js0 as the good device)
+
+
+
 ls -l /dev/input/js0
 sudo chmod a+rw /dev/input/js0
 (roscore or master core running)
@@ -14,4 +28,19 @@ rostopic echo joy
 
 to init car joy node with bonding:
 
+(if you run the controller node on ubuntu mate):
+
 rosrun carcontrol_joy control_joy.py
+
+(if you run the controller node on Ubuntu 16.04 or greater, you must do this first in order to
+avoid problems with ps3 controller interference with your mouse. If you don't want to run 
+this commmand everytime you restart your computer, then you can add it on startup programs):
+
+xinput set-prop "Sony PLAYSTATION(R)3 Controller" "Device Enabled" 0
+
+this disables js0 typically, wich is the gyroscopic axis of the ps3 controller. This is usually
+the axis introducing the problems on your mouse
+to finally run the node, just run
+
+rosrun carcontrol_joy control_joy_ubuntu.py
+
