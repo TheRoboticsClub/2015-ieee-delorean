@@ -24,7 +24,7 @@ def broken():
 
 def mapsteering(axis):
     aux_axis = 0.5
-    
+
     if axis >= 0.0:
         aux_axis = abs((axis/2.0) + 0.5)
         if aux_axis >= 1.0:
@@ -32,7 +32,7 @@ def mapsteering(axis):
 
         else:
             return aux_axis
-            
+
     else:
         aux_axis = abs((abs(axis)/2.0) - 0.5)
         if aux_axis <= 0.0:
@@ -40,44 +40,76 @@ def mapsteering(axis):
         else:
             return aux_axis
 
-    
+
 
 def mapthrottle(axis, currentgear):
     aux_axis = 0.5
-    
+
     if axis >= 0.0:
         aux_axis = abs((axis/2.0) + 0.5)
-        if aux_axis >= 1.0:
-            return 1.0
+
+        if currentgear == 0:
+            if aux_axis < 0.6:
+                return aux_axis
+            else:
+                return 0.6
+
+        elif currentgear == 1:
+            if aux_axis < 0.65:
+                return aux_axis
+            else:
+                return 0.65
+
+        elif currentgear == 2:
+            if aux_axis < 0.7:
+                return aux_axis
+            else:
+                return 0.7
 
         else:
-            if currentgear == 0:
-                if aux_axis < 0.6:
-                    return aux_axis
-                else:
-                    return 0.6
-            return 0.5
-           
-    else:
-        aux_axis = abs((abs(axis)/2.0) - 0.5)
-        if aux_axis <= 0.0:
-            return 0.0
-        elif aux_axis < 0.5:
-            return aux_axis
+            if aux_axis >= 1.0:
+                return 1.0
+
+            else:
+                return aux_axis
+
+    else
+        if currentgear == 0:
+            if aux_axis < 0.4:
+                return aux_axis
+            else:
+                return 0.4
+
+        elif currentgear == 1:
+            if aux_axis < 0.35:
+                return aux_axis
+            else:
+                return 0.35
+
+        elif currentgear == 2:
+            if aux_axis < 0.3:
+                return aux_axis
+            else:
+                return 0.3
+
         else:
-            aux_axis = 0.5
-            return aux_axis
+            if aux_axis <= 0.0:
+                return 0.0
+
+            else:
+                return aux_axis
+
 
 def changegear(data, buttonstate):
-    
+
     geardown = data.buttons[10]
     gearup = data.buttons[11]
-    
+
     if gearup == 1 and buttonstate.r1 == 0 and buttonstate.currentgear < 3:
         rospy.loginfo('boton pulsado')
         buttonstate.r1 = 1
         buttonstate.currentgear += 1
-        
+
     elif gearup == 0 and buttonstate.r1 == 1:
         rospy.loginfo('devuelvo el boton a 0')
         buttonstate.r1 = 0
@@ -87,16 +119,16 @@ def changegear(data, buttonstate):
         rospy.loginfo('boton pulsado')
         buttonstate.l1 = 1
         buttonstate.currentgear -= 1
-        
+
     elif geardown == 0 and buttonstate.l1 == 1:
         rospy.loginfo('devuelvo el boton a 0')
         buttonstate.l1 = 0
 
-    
+
     rospy.loginfo(buttonstate.currentgear)
 
 def callback(data, buttonstate):
-    
+
     changegear(data, buttonstate)
     twist = Twist()
     twist.linear.x = mapthrottle(data.axes[3], buttonstate.currentgear)
@@ -110,13 +142,13 @@ def start():
     global pub
     pub = rospy.Publisher('/arduino/cmd_vel', Twist, queue_size=10)
     # subscribed to joystick inputs on topic "joy"
-    
+
     class button:
         l1 = 0
         r1 = 0
         currentgear = 0
-    
-    
+
+
     buttonstate = button()
     buttonstate.r1 = 0
     buttonstate.l1 = 0
@@ -131,4 +163,3 @@ def start():
 if __name__ == '__main__':
 
     start()
-    

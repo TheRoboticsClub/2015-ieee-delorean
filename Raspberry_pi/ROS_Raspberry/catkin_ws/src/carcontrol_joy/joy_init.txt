@@ -1,6 +1,7 @@
 sudo apt-get install ros-kinetic-joy
 ls -l /dev/input/js0
 sudo chmod a+rw /dev/input/js0
+(roscore or master core running)
 rosparam set joy_node/dev "/dev/input/js0"
 
 init joy reader node:
