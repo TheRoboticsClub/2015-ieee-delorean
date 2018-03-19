@@ -105,8 +105,8 @@ def mapthrottle(axis, currentgear):
 
 def changegear(data, buttonstate):
 
-    geardown = data.buttons[10]
-    gearup = data.buttons[11]
+    geardown = data.buttons[4]
+    gearup = data.buttons[5]
 
     if gearup == 1 and buttonstate.r1 == 0 and buttonstate.currentgear < 3:
         rospy.loginfo('boton pulsado')
@@ -134,7 +134,7 @@ def callback(data, buttonstate):
 
     changegear(data, buttonstate)
     twist = Twist()
-    twist.linear.x = mapthrottle(data.axes[3], buttonstate.currentgear)
+    twist.linear.x = mapthrottle(data.axes[4], buttonstate.currentgear)
     twist.angular.z = mapsteering(-data.axes[0])
     rospy.loginfo(twist)
     pub.publish(twist)
