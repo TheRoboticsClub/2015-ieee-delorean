@@ -10,7 +10,4 @@ set(usb_cam_EXEC_DEPENDS "image_transport" "roscpp" "std_msgs" "std_srvs" "senso
 set(usb_cam_RUN_DEPENDS "image_transport" "roscpp" "std_msgs" "std_srvs" "sensor_msgs" "ffmpeg" "camera_info_manager" "v4l-utils")
 set(usb_cam_TEST_DEPENDS )
 set(usb_cam_DOC_DEPENDS )
-set(usb_cam_URL_WEBSITE "http://wiki.ros.org/usb_cam")
-set(usb_cam_URL_BUGTRACKER "https://github.com/bosch-ros-pkg/usb_cam/issues")
-set(usb_cam_URL_REPOSITORY "https://github.com/bosch-ros-pkg/usb_cam")
 set(usb_cam_DEPRECATED "")

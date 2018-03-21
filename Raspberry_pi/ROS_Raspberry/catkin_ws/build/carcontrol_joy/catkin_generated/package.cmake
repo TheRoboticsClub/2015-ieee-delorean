@@ -10,7 +10,4 @@ set(carcontrol_joy_EXEC_DEPENDS "geometry_msgs" "rospy" "sensor_msgs" "std_msgs"
 set(carcontrol_joy_RUN_DEPENDS "geometry_msgs" "rospy" "sensor_msgs" "std_msgs")
 set(carcontrol_joy_TEST_DEPENDS )
 set(carcontrol_joy_DOC_DEPENDS )
-set(carcontrol_joy_URL_WEBSITE "")
-set(carcontrol_joy_URL_BUGTRACKER "")
-set(carcontrol_joy_URL_REPOSITORY "")
 set(carcontrol_joy_DEPRECATED "")

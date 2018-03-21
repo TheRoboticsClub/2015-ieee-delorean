@@ -49,22 +49,22 @@ def mapthrottle(axis, currentgear):
         aux_axis = abs((axis/2.0) + 0.5)
 
         if currentgear == 0:
-            if aux_axis < 0.6:
+            if aux_axis < 0.53:
                 return aux_axis
             else:
-                return 0.6
+                return 0.53
 
         elif currentgear == 1:
-            if aux_axis < 0.65:
+            if aux_axis < 0.55:
                 return aux_axis
             else:
-                return 0.65
+                return 0.55
 
         elif currentgear == 2:
-            if aux_axis < 0.7:
+            if aux_axis < 0.57:
                 return aux_axis
             else:
-                return 0.7
+                return 0.57
 
         else:
             if aux_axis >= 1.0:
