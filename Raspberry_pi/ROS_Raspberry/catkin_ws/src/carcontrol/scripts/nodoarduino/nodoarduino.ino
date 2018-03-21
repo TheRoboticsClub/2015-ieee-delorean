@@ -62,8 +62,8 @@ void driveCallback ( const geometry_msgs::Twist&  twistMsg )
    escCommand = (int)fmap(twistMsg.linear.x, 0.5, 1.0, 90.0, maxThrottle) ;
 
   } else {
-      
-    escCommand = (int)fmap(twistMsg.linear.x, 0.0, 0.5, minThrottle, 90.0) ;
+
+    escCommand = (int)fmap(twistMsg.linear.x, 0.0, 1.0, minThrottle, 180.0) ;
   }
   //------------------------------------------------------------------------
 
