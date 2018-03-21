@@ -11,7 +11,7 @@
   #include <WProgram.h>
 #endif
 
-#include <Servo.h> 
+#include <Servo.h>
 #define USB_USBCON
 #include <ros.h>
 #include <std_msgs/UInt16.h>
@@ -32,7 +32,7 @@ Servo steeringServo;
 Servo electronicSpeedController ;  // The ESC on the TRAXXAS works like a Servo
 
 std_msgs::Int32 str_msg;
-ros::Publisher chatter("chatter", &str_msg); 
+ros::Publisher chatter("chatter", &str_msg);
 
 // Arduino 'map' funtion for floating point
 double fmap (double toMap, double in_min, double in_max, double out_min, double out_max) {
@@ -41,33 +41,34 @@ double fmap (double toMap, double in_min, double in_max, double out_min, double 
 
 void driveCallback ( const geometry_msgs::Twist&  twistMsg )
 {
-  
+
   int steeringAngle = fmap(twistMsg.angular.z, 0.0, 1.0, minSteering, maxSteering) ;
   // The following could be useful for debugging
   // str_msg.data= steeringAngle ;
   // chatter.publish(&str_msg);
   // Check to make sure steeringAngle is within car range
-  if (steeringAngle < minSteering) { 
+  if (steeringAngle < minSteering) {
     steeringAngle = minSteering;
   }
   if (steeringAngle > maxSteering) {
     steeringAngle = maxSteering ;
   }
   steeringServo.write(steeringAngle) ;
-  
+
   // ESC forward is between 0.5 and 1.0
   int escCommand ;
   //-----------------------------------------------------------------------
   if (twistMsg.linear.x >= 0.5) {
    escCommand = (int)fmap(twistMsg.linear.x, 0.5, 1.0, 90.0, maxThrottle) ;
-  //} else {
-    //escCommand = (int)fmap(twistMsg.linear.x, 0.0, 1.0, 0.0, 180.0) ;
+
+  } else {
+      
     escCommand = (int)fmap(twistMsg.linear.x, 0.0, 0.5, minThrottle, 90.0) ;
   }
   //------------------------------------------------------------------------
-  
+
   // Check to make sure throttle command is within bounds
-  if (escCommand < minThrottle) { 
+  if (escCommand < minThrottle) {
     escCommand = minThrottle;
   }
   if (escCommand > maxThrottle) {
@@ -76,10 +77,10 @@ void driveCallback ( const geometry_msgs::Twist&  twistMsg )
   // The following could be useful for debugging
   str_msg.data= escCommand ;
   chatter.publish(&str_msg);
-  
+
   electronicSpeedController.write(escCommand) ;
-  digitalWrite(13, HIGH-digitalRead(13));  //toggle led  
- 
+  digitalWrite(13, HIGH-digitalRead(13));  //toggle led
+
 }
 
 ros::Subscriber<geometry_msgs::Twist> driveSubscriber("/arduino/cmd_vel", &driveCallback) ;
@@ -100,7 +101,7 @@ void setup(){
   steeringServo.write(90) ;
   electronicSpeedController.write(90) ;
   delay(1000) ;
-  
+
 }
 
 void loop(){
