@@ -1,8 +1,0 @@
-In the Python 2 IDLE, you can start the serial communication with arduino this way:
-
-import serial
-ser = serial.Serial('/dev/ttyACM0', 9600)
-
-and then you are ready to use basic serial commands:
-
-ser.write('hello world') will send this string through serial to the arduino connected to usb

@@ -1,8 +1,0 @@
-prefix=/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install
-
-Name: gps_common
-Description: Description of gps_common
-Version: 0.2.0
-Cflags: -I/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install/include
-Libs: -L/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install/lib 
-Requires: message_runtime message_filters nav_msgs roscpp sensor_msgs std_msgs rospy

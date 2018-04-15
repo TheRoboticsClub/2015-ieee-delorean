@@ -1,8 +1,0 @@
-prefix=/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install
-
-Name: gpsd_client
-Description: Description of gpsd_client
-Version: 0.2.0
-Cflags: 
-Libs: -L/home/delorean/Desktop/GitHub/2015-ieee-delorean/Raspberry_pi/ROS_Raspberry/catkin_ws/install/lib 
-Requires: 
