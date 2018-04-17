@@ -143,7 +143,7 @@ def callback(data, buttonstate):
 def start():
     # publishing to "turtle1/cmd_vel" to control turtle1
     global pub
-    pub = rospy.Publisher('/arduino/cmd_vel', Twist, queue_size=10)
+    pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
     # subscribed to joystick inputs on topic "joy"
 
     class button:
