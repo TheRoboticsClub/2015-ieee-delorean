@@ -1,0 +1,8 @@
+ffmpeg -f video4linux2 -input_format h264 -video_size 1280x720 -framerate 30 -i /dev/video0 -vcodec copy -an test.h264
+  (estos valores son de ejemplo, puedes cambiarlos obviamente)
+
+------------------------------
+
+ffserver -f /root/ff.conf & ffmpeg -vcodec mjpeg -v verbose -r 15 -s 176x128 -f video4linux2 -i /dev/video0 -f alsa -ac 1 -i hw:1 http://localhost:81/webcam.ffm
+
+
