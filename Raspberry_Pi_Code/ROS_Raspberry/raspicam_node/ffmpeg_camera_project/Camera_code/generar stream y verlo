@@ -1,0 +1,45 @@
+Para empezar el stream de video:
+
+raspividyuv -n -t 0 -fps 25 -w 960 -h 544 -o - | ffmpeg -f rawvideo -pixel_format yuv420p -s:v 960x544 -i /dev/stdin -c:v mjpeg -f mjpeg udp://localhost:1234
+
+para ver el stream de video:
+
+ffplay udp://localhost:1234
+
+
+o para grabarlo:
+
+ffmpeg -i udp://localhost:1234 -c copy test.mjpeg
+
+si por ejemplo, quieres hacer un stream de la rpi al ordenador, tienes que hacer que en la primera instrucción en vez de localhost tienes que poner la dirección ip de la máquina a la que quieres enviar el stream
+
+
+------------------------------------------con mjpeg calidad decente
+
+ffplay -fflags nobuffer -flags low_delay -framedrop -strict experimental udp://localhost:1234
+
+raspividyuv -n -t 0 -fps 25 -w 960 -h 544 -o - | ffmpeg -f rawvideo -pixel_format yuv420p -s:v 960x544 -i /dev/stdin -c:v mjpeg -q 10 -f mjpeg udp://localhost:1234
+
+------------------------------------------con theora
+
+raspividyuv -n -t 0 -fps 25 -w 960 -h 544 -o - | ffmpeg -f rawvideo -pixel_format yuv420p -s:v 960x544 -i /dev/stdin -c:v libtheora -g 10 -q 10  -f ogg udp://localhost:1234
+
+(vamos a optimizarlo un poco)
+
+
+raspividyuv -n -t 0 -fps 20 -w 960 -h 544 -o - | ffmpeg -f rawvideo -pixel_format yuv420p -s:v 960x544 -i /dev/stdin -c:v libtheora -q:v 1 -f ogv udp://192.168.1.126:1234
+
+
+
+----------------------------------------con h264
+
+(este es genérico)
+
+raspividyuv -n -t 0 -fps 25 -w 960 -h 544 -o - | ffmpeg -f rawvideo -pixel_format yuv420p -s:v 960x544 -i /dev/stdin -c:v libx264 -preset ultrafast -f mpegts udp://localhost:1234
+
+(este es con bajo retardo y hd) puedes cambiar la resolución si lo deseas
+
+raspividyuv -n -t 0 -fps 20 -w 1280 -h 720 -o - | ffmpeg -f rawvideo -pixel_format yuv420p -s:v 1280x720 -i /dev/stdin -c:v libx264 -preset ultrafast -g 5 -f mpegts udp://192.168.1.126:1234
+
+
+
