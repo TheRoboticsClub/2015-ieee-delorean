@@ -43,3 +43,8 @@ raspividyuv -n -t 0 -fps 20 -w 1280 -h 720 -o - | ffmpeg -f rawvideo -pixel_form
 
 
 
+--------------------------------------STREMEAR AL BROADCAST
+
+Es igual, sólo que en la parte del final:
+
+... udp://192.168.1.255:1234?broadcast=1
