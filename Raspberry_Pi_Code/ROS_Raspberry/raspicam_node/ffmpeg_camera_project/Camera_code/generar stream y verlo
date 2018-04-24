@@ -69,5 +69,16 @@ si en vez de stremear vídeo de una cámara se quiere transmitir un fichero, ent
 nc.traditional 192.168.1.101 5000 < big_buck_bunny_1080p_stereo.avi
 
 
+otra manera de hacerlo seria (a probar):
+
+cliente
+
+netcat -l -p 5000 | mplayer -fps 60 -cache 1024 –
+
+servidor
+
+raspivid -t 0 -w 1280 -h 720 -o – | nc 192.168.1.39 5000
+
+
 
 
