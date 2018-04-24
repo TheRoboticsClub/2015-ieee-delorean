@@ -80,5 +80,18 @@ servidor
 raspivid -t 0 -w 1280 -h 720 -o – | nc 192.168.1.39 5000
 
 
+------------------------------------STREMEAR CON GSTREAMER
 
+server:
+
+gst-launch -v v4l2src ! "image/jpeg,width=160,height=120,framerate=30/1" ! rtpjpegpay ! udpsink host=192.168.2.3 port=5001
+
+client (windows)
+
+gst-launch-1.0.exe -e -v udpsrc port=5001 ! application/x-rtp, encoding-name=JPEG, payload=26 ! rtpjpegdepay ! jpegdec ! autovideosink
+
+
+-----------------------UV4L Y WEBRTC
+
+https://www.linux-projects.org/uv4l/installation/
 
