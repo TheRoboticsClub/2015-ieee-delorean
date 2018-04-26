@@ -52,7 +52,7 @@ Es igual, sólo que en la parte del final:
 
 
 -------------------------------------STREMEAR CON NETCAT Y MPLAYER
-para la raspberry:
+RETARDO EXTREMADAMENTE BAJO
 
 primero, poner a escuchar al cliente:
 
@@ -60,7 +60,7 @@ nc.traditional -l -p 5000 | mplayer -fps 60 -cache 1024 -
 
 luego, hacer el stream en el servidor
 
-/opt/vc/bin/raspivid -q -o - -t 10000000 | nc.traditional <ip del cliente> 5000
+/opt/vc/bin/raspivid -w 950 -h 544 -fps 30 -g 0 -o - -t 10000000 | nc.traditional 192.168.1.101 5000
 
 por defecto, el stream utiliza TCP, he probado UDP pero no parece funcionar, hay pérdida de paquetes incluso en red local
 
