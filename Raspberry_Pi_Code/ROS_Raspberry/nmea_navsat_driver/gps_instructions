@@ -27,6 +27,17 @@ sudo gpasswd --add <your_username>
 cd <your_node_directory>
 chmod +x <your_node>
 
+--------------------------------------------------------------------
+for some ubuntu versions, this might not work, so instead do this:
+
+sudo adduser <your_username> dialout
+sudo chmod a+rw /dev/ttyUSB0
+chmod +X <your_node>
+
+-----------------------------------------------------------------
+
+
+
 the, you should be able to launch the nmea driver. You can check if all is good with:
 
 rostopic list <---------------this should show you several topics, but we are interested in /fix , /vel and /time_reference
