@@ -1,0 +1,29 @@
+be sure to have this installed:
+
+ros-kinetic-rosbridge-server
+
+and apache:
+
+sudo apt-get install apache2 -y
+(this also will run apache automatically. If you want to stop it then: sudo service apache2 stop
+
+
+to run:
+
+be sure to have your html file done
+
+in the ros url on your html file be sure to have: 'ws://pi_address:9090' and place the html file in /var/www/html/index.html folder. This can be done by:
+
+cd /var/www/html
+ls -al
+sudo chown <user>: index.html
+and then modifiying the file or simply by making a cp
+
+
+and then:
+
+1-run roscore on your pi
+2-run roslaunch rosbridge_server rosbridge_websocket.launch
+3-go to http://pi_address on your web browser on the controller device. You should be in the same network as the car. Also, you should make sure
+that the two machines can resolve machine names.
+
