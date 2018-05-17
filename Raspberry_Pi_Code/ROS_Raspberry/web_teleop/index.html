@@ -9,7 +9,7 @@
 
 .slider {
     -webkit-appearance: none;
-    width: 50%;
+    width: 400%;
     height: 25px;
     background: #d3d3d3;
     outline: none;
@@ -42,6 +42,10 @@
   transform: rotate(-90deg);
 }
 
+.margin{
+  padding-top: 17%;
+}
+
 </style>
 
 <script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
@@ -52,15 +56,17 @@
   <h1>Web Car Teleop</h1>
   <table>
   	<tr>
-    	<th>
+     <div class="margin">
+    	 <th>
   			<input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-        </th>
-        <th>
-        	<input type="range" orient="vertical" min="1" max="100" value="50" class="slider" id="myRange2">
-        </th>
+       </th>
+       <th>
+        	<input type="range" min="1" max="100" value="50" class="slider" id="myRange2">
+       </th>
+     </div>
     </tr>
   </table>
-    
+
   <script type="text/javascript" type="text/javascript">
 
     //------------------
