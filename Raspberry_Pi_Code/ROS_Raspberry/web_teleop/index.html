@@ -39,10 +39,7 @@
 }
 
 #myRange2{
-  -webkit-appearance: slider-vertical;
-  width: 25px;
-  height: 700px;
-  margin-right: 700px;
+  transform: rotate(-90deg);
 }
 
 </style>
@@ -53,16 +50,17 @@
 </head>
 <body>
   <h1>Web Car Teleop</h1>
-  <div class="slidecontainer">
-    <input type="range" min="18" max="84" value="50" class="slider" id="myRange">
-    <p>Value: <span id="demo"></span></p>
-  </div>
-
-  <div class="slidecontainer">
-    <input type="range" orient="vertical" min="18" max="84" value="50" class="slider" id="myRange2">
-    <p>Value: <span id="demo2"></span></p>
-  </div>
-
+  <table>
+  	<tr>
+    	<th>
+  			<input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+        </th>
+        <th>
+        	<input type="range" orient="vertical" min="1" max="100" value="50" class="slider" id="myRange2">
+        </th>
+    </tr>
+  </table>
+    
   <script type="text/javascript" type="text/javascript">
 
     //------------------
