@@ -43,16 +43,16 @@ def mapthrottle(axis, currentgear):
                 return 0.5417
 
         elif currentgear == 1:
-            if aux_axis < 0.55:
-                return aux_axis
-            else:
-                return 0.55
-
-        elif currentgear == 2:
             if aux_axis < 0.56:
                 return aux_axis
             else:
                 return 0.56
+
+        elif currentgear == 2:
+            if aux_axis < 0.60:
+                return aux_axis
+            else:
+                return 0.60
 
         else:
             if aux_axis >= 1.0:
@@ -66,26 +66,23 @@ def mapthrottle(axis, currentgear):
         aux_axis = abs((axis/2.0) + 0.5)
 
         if currentgear == 0:
-            if aux_axis > 0.4:
+            if aux_axis > 0.48:
                 return aux_axis
             else:
-                return 0.4
+                return 0.48
 
         elif currentgear == 1:
-            if aux_axis > 0.35:
+            if aux_axis > 0.46:
                 return aux_axis
             else:
-                return 0.35
+                return 0.46
 
         elif currentgear == 2:
-            if aux_axis > 0.3:
-                return aux_axis
-            else:
-                return 0.3
+                return 0.5
 
         else:
             if aux_axis <= 0.0:
-                return 0.0
+                return 0.5
 
             else:
                 return aux_axis
@@ -139,6 +136,7 @@ def talker():
     buttonstate.r1 = 0
     buttonstate.l1 = 0
     buttonstate.currentgear = 0
+    buttonstate.reversegear = 0
     rospy.Subscriber("joy", Joy, callback, buttonstate)
     rospy.spin()
 
