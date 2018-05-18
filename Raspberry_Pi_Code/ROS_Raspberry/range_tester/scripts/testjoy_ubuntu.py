@@ -43,16 +43,16 @@ def mapthrottle(axis, currentgear):
                 return 0.5417
 
         elif currentgear == 1:
-            if aux_axis < 0.55:
-                return aux_axis
-            else:
-                return 0.55
-
-        elif currentgear == 2:
             if aux_axis < 0.56:
                 return aux_axis
             else:
                 return 0.56
+
+        elif currentgear == 2:
+            if aux_axis < 0.60:
+                return aux_axis
+            else:
+                return 0.60
 
         else:
             if aux_axis >= 1.0:
@@ -65,27 +65,24 @@ def mapthrottle(axis, currentgear):
 
         aux_axis = abs((axis/2.0) + 0.5)
 
-        if currentgear == 0:
-            if aux_axis > 0.4:
+        if currentgear == 0 and reversegear > 0:
+            if aux_axis > 0.48:
                 return aux_axis
             else:
-                return 0.4
+                return 0.48
 
-        elif currentgear == 1:
-            if aux_axis > 0.35:
+        elif currentgear == 1 and reversegear > 0:
+            if aux_axis > 0.46:
                 return aux_axis
             else:
-                return 0.35
+                return 0.46
 
-        elif currentgear == 2:
-            if aux_axis > 0.3:
-                return aux_axis
-            else:
-                return 0.3
+        elif currentgear == 2 and reversegear > 0:
+                return 0.5
 
         else:
             if aux_axis <= 0.0:
-                return 0.0
+                return 0.5
 
             else:
                 return aux_axis
@@ -95,6 +92,7 @@ def changegear(data, buttonstate):
 
     geardown = data.buttons[4]
     gearup = data.buttons[5]
+    reversegear = data.button[6]
 
     if gearup == 1 and buttonstate.r1 == 0 and buttonstate.currentgear < 3:
         rospy.loginfo('boton pulsado')
@@ -133,12 +131,14 @@ def talker():
         l1 = 0
         r1 = 0
         currentgear = 0
+        reversegear = 0
 
 
     buttonstate = button()
     buttonstate.r1 = 0
     buttonstate.l1 = 0
     buttonstate.currentgear = 0
+    buttonstate.reversegear = 0
     rospy.Subscriber("joy", Joy, callback, buttonstate)
     rospy.spin()
 
