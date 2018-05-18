@@ -52,6 +52,13 @@ html, body{margin: 0; height: 100%; overflow: hidden}
   padding-top: 10%;
 }
 
+#stopButton{
+  margin-left: 35%;
+  margin-top: 10%;
+  width: 450px;
+  height: 300px;
+}
+
 </style>
 
 <script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
@@ -64,6 +71,7 @@ html, body{margin: 0; height: 100%; overflow: hidden}
   			<input type="range" step="0.05" min="18" max="84" value="50" class="slider" id="myRange">
         <input type="range" step="0.05" min="47" max="55" value="50" class="slider" id="myRange2">
      </div>
+       <button id='stopButton' onclick="stopCar()">STOP</button>
 
   <script type="text/javascript" type="text/javascript">
 
@@ -103,7 +111,7 @@ html, body{margin: 0; height: 100%; overflow: hidden}
 
     //--------------------------------------------------------------
 
-    // Publishing a Topic
+    // Publishing heartbeat ping
     // ------------------
     var ping = new ROSLIB.Topic({
       ros : ros,
@@ -164,6 +172,24 @@ html, body{margin: 0; height: 100%; overflow: hidden}
         }
       });
       console.log(throttle);
+      cmdVel.publish(twist);
+    }
+
+    function stopCar(){
+      slider.value = 50;
+      slider2.value = 50;
+      var twist = new ROSLIB.Message({
+        linear : {
+          x : 0.5,
+          y : 0.0,
+          z : 0.0
+        },
+        angular : {
+          x : 0.0,
+          y : 0.0,
+          z : 0.5
+        }
+      });
       cmdVel.publish(twist);
     }
 
