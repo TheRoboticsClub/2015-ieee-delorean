@@ -65,19 +65,19 @@ def mapthrottle(axis, currentgear):
 
         aux_axis = abs((axis/2.0) + 0.5)
 
-        if currentgear == 0:
+        if currentgear == 0 and reversegear > 0:
             if aux_axis > 0.48:
                 return aux_axis
             else:
                 return 0.48
 
-        elif currentgear == 1:
+        elif currentgear == 1 and reversegear > 0:
             if aux_axis > 0.46:
                 return aux_axis
             else:
                 return 0.46
 
-        elif currentgear == 2:
+        elif currentgear == 2 reversegear > 0:
                 return 0.5
 
         else:
@@ -92,6 +92,7 @@ def changegear(data, buttonstate):
 
     geardown = data.buttons[4]
     gearup = data.buttons[5]
+    reversegear = data.button[6]
 
     if gearup == 1 and buttonstate.r1 == 0 and buttonstate.currentgear < 3:
         rospy.loginfo('boton pulsado')
@@ -130,6 +131,7 @@ def talker():
         l1 = 0
         r1 = 0
         currentgear = 0
+        reversegear = 0
 
 
     buttonstate = button()
