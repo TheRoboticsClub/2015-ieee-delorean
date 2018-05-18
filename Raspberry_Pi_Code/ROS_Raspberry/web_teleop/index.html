@@ -9,7 +9,7 @@
 
 .slider {
     -webkit-appearance: none;
-    width: 400%;
+    width: 50%;
     height: 25px;
     background: #d3d3d3;
     outline: none;
@@ -40,10 +40,12 @@
 
 #myRange2{
   transform: rotate(-90deg);
+  float: right;
+  margin-right: -15%
 }
 
 .margin{
-  padding-top: 17%;
+  padding-top: 20%;
 }
 
 </style>
@@ -54,18 +56,10 @@
 </head>
 <body>
   <h1>Web Car Teleop</h1>
-  <table>
-  	<tr>
      <div class="margin">
-    	 <th>
-  			<input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-       </th>
-       <th>
-        	<input type="range" min="1" max="100" value="50" class="slider" id="myRange2">
-       </th>
+  			<input type="range" step="0.05" min="18" max="84" value="50" class="slider" id="myRange">
+        <input type="range" step="0.05" min="47" max="54" value="50" class="slider" id="myRange2">
      </div>
-    </tr>
-  </table>
 
   <script type="text/javascript" type="text/javascript">
 
@@ -94,7 +88,12 @@
 
     var slider = document.getElementById("myRange");
     var output = document.getElementById("demo");
-    output.innerHTML = slider.value;
+    //output.innerHTML = slider.value;
+
+    var slider2 = document.getElementById("myRange2");
+    var output2 = document.getElementById("demo");
+    //output2.innerHTML = slider2.value;
+
     var steering = 0.5;
     var throttle = 0.5;
 
@@ -124,13 +123,13 @@
       messageType : 'geometry_msgs/Twist'
     });
 
+//steering
     slider.oninput = function(){
-      output.innerHTML = this.value;
+      //output.innerHTML = this.value;
       steering = this.value/100;
-      console.log(steering);
       var twist = new ROSLIB.Message({
         linear : {
-          x : 0.5,
+          x : throttle,
           y : 0.0,
           z : 0.0
         },
@@ -140,9 +139,30 @@
           z : steering
         }
       });
-
+      console.log(steering);
       cmdVel.publish(twist);
     }
+
+//throttle
+    slider2.oninput = function(){
+      //output2.innerHTML = this.value;
+      throttle = this.value/100;
+      var twist = new ROSLIB.Message({
+        linear : {
+          x : throttle,
+          y : 0.0,
+          z : 0.0
+        },
+        angular : {
+          x : 0.0,
+          y : 0.0,
+          z : steering
+        }
+      });
+      console.log(throttle);
+      cmdVel.publish(twist);
+    }
+
 
   </script>
 </body>
