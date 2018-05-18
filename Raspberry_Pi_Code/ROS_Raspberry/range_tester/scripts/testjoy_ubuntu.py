@@ -30,7 +30,7 @@ def mapsteering(axis):
 
 
 
-def mapthrottle(axis, currentgear):
+def mapthrottle(axis, currentgear, reversegear):
 
     aux_axis = 0.5
     if axis >= 0.0:
@@ -120,7 +120,7 @@ def callback(data, buttonstate):
 
     changegear(data, buttonstate)
     twist = Twist()
-    twist.linear.x = mapthrottle(data.axes[4], buttonstate.currentgear)
+    twist.linear.x = mapthrottle(data.axes[4], buttonstate.currentgear, buttonstate.reversegear)
     twist.angular.z = mapsteering(-data.axes[0])
     rospy.loginfo(twist)
     pub.publish(twist)
