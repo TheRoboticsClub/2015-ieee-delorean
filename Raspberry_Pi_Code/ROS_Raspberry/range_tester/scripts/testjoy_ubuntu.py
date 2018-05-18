@@ -81,10 +81,6 @@ def mapthrottle(axis, currentgear, reversegear):
                 return 0.5
 
         else:
-            if aux_axis <= 0.0:
-                return 0.5
-
-            else:
                 return aux_axis
 
 
@@ -93,6 +89,7 @@ def changegear(data, buttonstate):
     geardown = data.buttons[4]
     gearup = data.buttons[5]
     reversegear = data.buttons[6]
+    buttonstate.reversegear = reversegear
 
     if gearup == 1 and buttonstate.r1 == 0 and buttonstate.currentgear < 3:
         rospy.loginfo('boton pulsado')
