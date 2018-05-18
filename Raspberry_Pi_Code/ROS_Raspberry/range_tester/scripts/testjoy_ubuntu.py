@@ -77,7 +77,7 @@ def mapthrottle(axis, currentgear):
             else:
                 return 0.46
 
-        elif currentgear == 2 reversegear > 0:
+        elif currentgear == 2 and reversegear > 0:
                 return 0.5
 
         else:
