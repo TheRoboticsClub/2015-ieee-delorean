@@ -81,7 +81,7 @@ def mapthrottle(axis, currentgear, reversegear):
                 return 0.5
 
         else:
-                return aux_axis
+                return 0.5
 
 
 def changegear(data, buttonstate):
