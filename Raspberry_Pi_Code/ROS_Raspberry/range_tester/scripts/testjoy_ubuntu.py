@@ -92,7 +92,7 @@ def changegear(data, buttonstate):
 
     geardown = data.buttons[4]
     gearup = data.buttons[5]
-    reversegear = data.button[6]
+    reversegear = data.buttons[6]
 
     if gearup == 1 and buttonstate.r1 == 0 and buttonstate.currentgear < 3:
         rospy.loginfo('boton pulsado')
