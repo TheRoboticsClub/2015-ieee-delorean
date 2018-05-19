@@ -53,14 +53,30 @@ html, body{margin: 0; height: 100%; overflow: hidden}
 }
 
 #stopButton{
-  margin-left: 37%;
-  margin-top: 0%;
+  float: right;
+  margin-right: -15%;
+  margin-top: 3%;
   width: 450px;
   height: 200px;
   color: white;
   background-color: #f44336;
   border: 4px solid white;
   font-size: 40px;
+  border-radius: 12px;
+}
+
+#bounceButton{
+  color: white;
+  font-size: 40px;
+  border-radius: 12px;
+  background-color: #B0E0E6;
+  border: 4px solid white;
+  height: 200px;
+  width: 300px;
+  margin-top: 0%;
+  float: left;
+  margin-left: 8%;
+  margin-top: 3%;
 }
 
 </style>
@@ -72,10 +88,11 @@ html, body{margin: 0; height: 100%; overflow: hidden}
 <body background="image.jpeg">
   <h1>Web Car Teleop</h1>
      <div class="margin">
-  			<input type="range" step="0.05" min="18" max="84" value="50" class="slider" id="myRange">
-        <input type="range" step="0.05" min="47" max="55" value="50" class="slider" id="myRange2">
+  			<input type="range" ontouchend="bounceBack(event)" onmouseup="bounceBack(event)" step="0.05" min="18" max="84" value="50" class="slider" id="myRange">
+        <input type="range" ontouchend="bounceBack(event)" onmouseup="bounceBack(event)" step="0.05" min="47" max="55" value="50" class="slider" id="myRange2">
      </div>
        <button id='stopButton' onclick="stopCar()">STOP</button>
+       <button id='bounceButton' onclick='switchBounce(event)' value='0'>SWITCH SLIDER BOUNCE</button>
 
   <script type="text/javascript" type="text/javascript">
   console.log('init');
@@ -198,6 +215,49 @@ html, body{margin: 0; height: 100%; overflow: hidden}
       cmdVel.publish(twist);
     }
 
+    function switchBounce(event){
+      var bounceState = document.getElementById('bounceButton').value;
+
+      if(event.target.value == 0){
+        event.target.value = 1;
+        alert('joystick mode disabled');
+
+      }else if(event.target.value == 1){
+        event.target.value = 0;
+        document.getElementById('myRange').value = 50;
+        document.getElementById('myRange2').value = 50;
+        var twist = new ROSLIB.Message({
+          linear : {
+            x : 0.5,
+            y : 0.0,
+            z : 0.0
+          },
+          angular : {
+            x : 0.0,
+            y : 0.0,
+            z : 0.5
+          }
+        });
+        cmdVel.publish(twist);
+        alert('joystick mode enabled');
+        console.log(twist);
+      }
+    }
+
+    function bounceBack(event){
+      var bounceState = document.getElementById('bounceButton').value;
+      //console.log(bounceState);
+      if(bounceState == 0){
+        event.target.value = 50;
+
+        if(event.target.id == "myRange"){
+          ;
+        }
+
+      }
+        //console.log("throttle is", twist.linear.x);
+        //console.log("steering is", twist.angular.z);
+    }
 
   </script>
 </body>
