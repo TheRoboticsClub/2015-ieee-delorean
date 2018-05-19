@@ -173,7 +173,7 @@ html, body{margin: 0; height: 100%; overflow: hidden}
           z : steering
         }
       });
-      console.log(steering);
+      //console.log(steering);
       cmdVel.publish(twist);
     }
 
@@ -193,13 +193,15 @@ html, body{margin: 0; height: 100%; overflow: hidden}
           z : steering
         }
       });
-      console.log(throttle);
+      //console.log(throttle);
       cmdVel.publish(twist);
     }
 
     function stopCar(){
       slider.value = 50;
       slider2.value = 50;
+      steering = 0.5;
+      throttle = 0.5;
       var twist = new ROSLIB.Message({
         linear : {
           x : 0.5,
@@ -220,12 +222,18 @@ html, body{margin: 0; height: 100%; overflow: hidden}
 
       if(event.target.value == 0){
         event.target.value = 1;
+        document.getElementById('myRange').value = 50;
+        document.getElementById('myRange2').value = 50;
+        steering = 0.5;
+        throttle = 0.5;
         alert('joystick mode disabled');
 
       }else if(event.target.value == 1){
         event.target.value = 0;
         document.getElementById('myRange').value = 50;
         document.getElementById('myRange2').value = 50;
+        steering = 0.5;
+        throttle = 0.5;
         var twist = new ROSLIB.Message({
           linear : {
             x : 0.5,
@@ -240,24 +248,56 @@ html, body{margin: 0; height: 100%; overflow: hidden}
         });
         cmdVel.publish(twist);
         alert('joystick mode enabled');
-        console.log(twist);
+        //console.log(twist);
       }
     }
 
     function bounceBack(event){
       var bounceState = document.getElementById('bounceButton').value;
-      //console.log(bounceState);
       if(bounceState == 0){
         event.target.value = 50;
+        if(event.target.id == 'myRange'){
+          console.log('returning steering to neutral');
+          steering = 0.5;
+          var twistSteering = new ROSLIB.Message({
+            linear : {
+              x : throttle,
+              y : 0.0,
+              z : 0.0
+            },
+            angular : {
+              x : 0.0,
+              y : 0.0,
+              z : 0.5
+            }
+          });
+          cmdVel.publish(twistSteering);
+          console.log(twistSteering);
 
-        if(event.target.id == "myRange"){
-          ;
+        }else{
+          throttle = 0.5;
+          console.log('returning throttle to neutral');
+          var twistThrottle = new ROSLIB.Message({
+            linear : {
+              x : 0.5,
+              y : 0.0,
+              z : 0.0
+            },
+            angular : {
+              x : 0.0,
+              y : 0.0,
+              z : steering
+            }
+          });
+          cmdVel.publish(twistThrottle);
+          console.log(twistThrottle);
         }
-
       }
         //console.log("throttle is", twist.linear.x);
         //console.log("steering is", twist.angular.z);
     }
+
+    //setInterval(function(){console.log(steering, throttle);}, 1000);
 
   </script>
 </body>
