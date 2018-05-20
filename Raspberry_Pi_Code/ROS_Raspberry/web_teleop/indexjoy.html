@@ -133,7 +133,7 @@ html, body{margin: 0; height: 100%; overflow: hidden}
     var inputPosX = document.getElementById("posizioneX");
 
     setInterval(function(){
-        sendSterring(joy.GetPosX);
+        sendSterring(joy.GetPosX());
 
      }, 50);
 
@@ -182,9 +182,9 @@ html, body{margin: 0; height: 100%; overflow: hidden}
 function sendSterring(value){
     steering = (value-50)/100;
     if (steering > 1){
-        steering = 1;
+        steering = 1.0;
     }else if (steering < 0 ) {
-        steering = 0;
+        steering = 0.0;
 
     }
     console.log(steering);
