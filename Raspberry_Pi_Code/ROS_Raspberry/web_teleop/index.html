@@ -64,6 +64,7 @@ html, body{margin: 0; height: 100%; overflow: hidden}
   font-size: 40px;
   border-radius: 12px;
 }
+
 #bounceButton{
   color: white;
   font-size: 40px;
@@ -86,7 +87,6 @@ html, body{margin: 0; height: 100%; overflow: hidden}
 </head>
 <body background="image.jpeg">
   <h1>Web Car Teleop</h1>
-  
      <div class="margin">
   			<input type="range" ontouchend="bounceBack(event)" onmouseup="bounceBack(event)" step="0.05" min="18" max="84" value="50" class="slider" id="myRange">
         <input type="range" ontouchend="bounceBack(event)" onmouseup="bounceBack(event)" step="0.05" min="47" max="55" value="50" class="slider" id="myRange2">
@@ -118,7 +118,7 @@ html, body{margin: 0; height: 100%; overflow: hidden}
       console.log('Connection to websocket server closed.');
     });
 
-    //--------------------------------------------------------------/////
+    //--------------------------------------------------------------
 
     var slider = document.getElementById("myRange");
     var output = document.getElementById("demo");
@@ -158,11 +158,8 @@ html, body{margin: 0; height: 100%; overflow: hidden}
     });
 
 //steering
-
-
-
     slider.oninput = function(){
-      output.innerHTML = this.value;
+      //output.innerHTML = this.value;
       steering = this.value/100;
       var twist = new ROSLIB.Message({
         linear : {
