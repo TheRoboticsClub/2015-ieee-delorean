@@ -45,11 +45,11 @@ html, body{margin: 0; height: 100%; overflow: hidden}
   transform: rotate(-90deg);
   float: right;
   margin-right: -5%;
-  margin-top: 20px;
+  margin-top: 1%;
 }
 
 .margin{
-  padding-top: 10%;
+  padding-top: 4%;
 }
 
 #stopButton{
@@ -65,7 +65,10 @@ html, body{margin: 0; height: 100%; overflow: hidden}
   border-radius: 12px;
 }
 #joystick {
-       border: 1px solid #9C9898;
+    margin-left: 40%;
+    margin-top: 50%;
+
+    border: 1px solid #9C9898;
      }
 
 #bounceButton{
@@ -93,11 +96,8 @@ html, body{margin: 0; height: 100%; overflow: hidden}
   <h1>Web Car Teleop</h1>
 
   <div id="joyDiv" style="width:200px;height:200px;margin-bottom:20px;"></div>
-  	Posizione X:<input id="posizioneX" type="text" /></br>
-
 
      <div class="margin">
-  			<!-- <input type="range" ontouchend="bounceBack(event)" onmouseup="bounceBack(event)" step="0.05" min="18" max="84" value="50" class="slider" id="myRange"> -->
         <input type="range" ontouchend="bounceBack(event)" onmouseup="bounceBack(event)" step="0.05" min="47" max="55" value="50" class="slider" id="myRange2">
      </div>
        <button id='stopButton' onclick="stopCar()">STOP</button>
@@ -131,19 +131,11 @@ html, body{margin: 0; height: 100%; overflow: hidden}
     //joystick
     var joy = new JoyStick('joyDiv');
     var inputPosX = document.getElementById("posizioneX");
-    //var inputPosY = document.getElementById("posizioneY");
-    //var direzione = document.getElementById("direzione");
-    //var x = document.getElementById("X");
-    //var y = document.getElementById("Y");
+
     setInterval(function(){
-        inputPosX.value = joy.GetPosX();
-        sendSterring(inputPosX.value);
+        sendSterring(joy.GetPosX);
 
      }, 50);
-    //setInterval(function(){ inputPosY.value=joy.GetPosY(); }, 50);
-    //setInterval(function(){ direzione.value=joy.GetDir(); }, 50);
-    //setInterval(function(){ x.value=joy.GetX(); }, 50);
-    //setInterval(function(){ y.value=joy.GetY(); }, 50);
 
 
 //////------------------------------------------------/////////////
@@ -212,25 +204,6 @@ function sendSterring(value){
     cmdVel.publish(twist);
   }
 
-//    slider.oninput = function(){
-      //output.innerHTML = this.value;
-//      steering = this.value/100;
-//      var twist = new ROSLIB.Message({
-//        linear : {
-//          x : throttle,
-//          y : 0.0,
-//          z : 0.0
-//        },
-//        angular : {
-//          x : 0.0,
-//          y : 0.0,
-//          z : steering
-//        }
-//      });
-      //console.log(steering);
-//      cmdVel.publish(twist);
-//    }
-
 //throttle
     slider2.oninput = function(){
       //output2.innerHTML = this.value;
@@ -252,7 +225,6 @@ function sendSterring(value){
     }
 
     function stopCar(){
-      slider.value = 50;
       slider2.value = 50;
       steering = 0.5;
       throttle = 0.5;
@@ -276,7 +248,7 @@ function sendSterring(value){
 
       if(event.target.value == 0){
         event.target.value = 1;
-        document.getElementById('myRange').value = 50;
+        //document.getElementById('myRange').value = 50;
         document.getElementById('myRange2').value = 50;
         steering = 0.5;
         throttle = 0.5;
@@ -284,7 +256,7 @@ function sendSterring(value){
 
       }else if(event.target.value == 1){
         event.target.value = 0;
-        document.getElementById('myRange').value = 50;
+        //document.getElementById('myRange').value = 50;
         document.getElementById('myRange2').value = 50;
         steering = 0.5;
         throttle = 0.5;
