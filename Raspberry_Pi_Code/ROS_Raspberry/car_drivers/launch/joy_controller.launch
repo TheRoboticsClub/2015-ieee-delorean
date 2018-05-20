@@ -1,0 +1,7 @@
+<launch>
+  <node pkg='joy' type='joy_node' name='base_joy_node'>
+  </node>
+
+  <node pkg='car_drivers' type='joy_ubuntu.py' name='joy_node'>
+  </node>
+</launch>

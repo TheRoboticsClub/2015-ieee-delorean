@@ -35,7 +35,7 @@ def ping_verifier(counter):
             stop_msg = Twist()
             stop_msg.linear.x = 0.5
             stop_msg.angular.z = 0.5
-            #pub.publish(stop_msg)
+            pub.publish(stop_msg)
 
 
         time.sleep(1)
