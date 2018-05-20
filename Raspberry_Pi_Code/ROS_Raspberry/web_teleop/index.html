@@ -52,6 +52,33 @@ html, body{margin: 0; height: 100%; overflow: hidden}
   padding-top: 10%;
 }
 
+#stopButton{
+  float: right;
+  margin-right: -15%;
+  margin-top: 3%;
+  width: 450px;
+  height: 200px;
+  color: white;
+  background-color: #f44336;
+  border: 4px solid white;
+  font-size: 40px;
+  border-radius: 12px;
+}
+
+#bounceButton{
+  color: white;
+  font-size: 40px;
+  border-radius: 12px;
+  background-color: #B0E0E6;
+  border: 4px solid white;
+  height: 200px;
+  width: 300px;
+  margin-top: 0%;
+  float: left;
+  margin-left: 8%;
+  margin-top: 3%;
+}
+
 </style>
 
 <script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
@@ -61,11 +88,14 @@ html, body{margin: 0; height: 100%; overflow: hidden}
 <body background="image.jpeg">
   <h1>Web Car Teleop</h1>
      <div class="margin">
-  			<input type="range" step="0.05" min="18" max="84" value="50" class="slider" id="myRange">
-        <input type="range" step="0.05" min="47" max="55" value="50" class="slider" id="myRange2">
+  			<input type="range" ontouchend="bounceBack(event)" onmouseup="bounceBack(event)" step="0.05" min="18" max="84" value="50" class="slider" id="myRange">
+        <input type="range" ontouchend="bounceBack(event)" onmouseup="bounceBack(event)" step="0.05" min="47" max="55" value="50" class="slider" id="myRange2">
      </div>
+       <button id='stopButton' onclick="stopCar()">STOP</button>
+       <button id='bounceButton' onclick='switchBounce(event)' value='0'>SWITCH SLIDER BOUNCE</button>
 
   <script type="text/javascript" type="text/javascript">
+  console.log('init');
 
     //------------------
 
@@ -103,7 +133,7 @@ html, body{margin: 0; height: 100%; overflow: hidden}
 
     //--------------------------------------------------------------
 
-    // Publishing a Topic
+    // Publishing heartbeat ping
     // ------------------
     var ping = new ROSLIB.Topic({
       ros : ros,
@@ -123,7 +153,7 @@ html, body{margin: 0; height: 100%; overflow: hidden}
 
     var cmdVel = new ROSLIB.Topic({
       ros : ros,
-      name : '/arduino/cmd_vel',
+      name : '/turtle1/cmd_vel',
       messageType : 'geometry_msgs/Twist'
     });
 
@@ -143,7 +173,7 @@ html, body{margin: 0; height: 100%; overflow: hidden}
           z : steering
         }
       });
-      console.log(steering);
+      //console.log(steering);
       cmdVel.publish(twist);
     }
 
@@ -163,10 +193,111 @@ html, body{margin: 0; height: 100%; overflow: hidden}
           z : steering
         }
       });
-      console.log(throttle);
+      //console.log(throttle);
       cmdVel.publish(twist);
     }
 
+    function stopCar(){
+      slider.value = 50;
+      slider2.value = 50;
+      steering = 0.5;
+      throttle = 0.5;
+      var twist = new ROSLIB.Message({
+        linear : {
+          x : 0.5,
+          y : 0.0,
+          z : 0.0
+        },
+        angular : {
+          x : 0.0,
+          y : 0.0,
+          z : 0.5
+        }
+      });
+      cmdVel.publish(twist);
+    }
+
+    function switchBounce(event){
+      var bounceState = document.getElementById('bounceButton').value;
+
+      if(event.target.value == 0){
+        event.target.value = 1;
+        document.getElementById('myRange').value = 50;
+        document.getElementById('myRange2').value = 50;
+        steering = 0.5;
+        throttle = 0.5;
+        alert('joystick mode disabled');
+
+      }else if(event.target.value == 1){
+        event.target.value = 0;
+        document.getElementById('myRange').value = 50;
+        document.getElementById('myRange2').value = 50;
+        steering = 0.5;
+        throttle = 0.5;
+        var twist = new ROSLIB.Message({
+          linear : {
+            x : 0.5,
+            y : 0.0,
+            z : 0.0
+          },
+          angular : {
+            x : 0.0,
+            y : 0.0,
+            z : 0.5
+          }
+        });
+        cmdVel.publish(twist);
+        alert('joystick mode enabled');
+        //console.log(twist);
+      }
+    }
+
+    function bounceBack(event){
+      var bounceState = document.getElementById('bounceButton').value;
+      if(bounceState == 0){
+        event.target.value = 50;
+        if(event.target.id == 'myRange'){
+          console.log('returning steering to neutral');
+          steering = 0.5;
+          var twistSteering = new ROSLIB.Message({
+            linear : {
+              x : throttle,
+              y : 0.0,
+              z : 0.0
+            },
+            angular : {
+              x : 0.0,
+              y : 0.0,
+              z : 0.5
+            }
+          });
+          cmdVel.publish(twistSteering);
+          console.log(twistSteering);
+
+        }else{
+          throttle = 0.5;
+          console.log('returning throttle to neutral');
+          var twistThrottle = new ROSLIB.Message({
+            linear : {
+              x : 0.5,
+              y : 0.0,
+              z : 0.0
+            },
+            angular : {
+              x : 0.0,
+              y : 0.0,
+              z : steering
+            }
+          });
+          cmdVel.publish(twistThrottle);
+          console.log(twistThrottle);
+        }
+      }
+        //console.log("throttle is", twist.linear.x);
+        //console.log("steering is", twist.angular.z);
+    }
+
+    //setInterval(function(){console.log(steering, throttle);}, 1000);
 
   </script>
 </body>
