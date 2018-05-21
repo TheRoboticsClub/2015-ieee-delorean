@@ -321,7 +321,7 @@ html, body{margin: 0; height: 100%; overflow: hidden}
       if(bounceState == 0){
         event.target.value = 50;
         if(event.target.id == 'myRange'){
-          console.log('returning steering to neutral');
+          //console.log('returning steering to neutral');
           steering = 0.5;
           var twistSteering = new ROSLIB.Message({
             linear : {
@@ -336,11 +336,11 @@ html, body{margin: 0; height: 100%; overflow: hidden}
             }
           });
           cmdVel.publish(twistSteering);
-          console.log(twistSteering);
+          //console.log(twistSteering);
 
         }else{
           throttle = 0.5;
-          console.log('returning throttle to neutral');
+          //console.log('returning throttle to neutral');
           var twistThrottle = new ROSLIB.Message({
             linear : {
               x : 0.5,
@@ -354,7 +354,7 @@ html, body{margin: 0; height: 100%; overflow: hidden}
             }
           });
           cmdVel.publish(twistThrottle);
-          console.log(twistThrottle);
+          //console.log(twistThrottle);
         }
       }
         //console.log("throttle is", twist.linear.x);
