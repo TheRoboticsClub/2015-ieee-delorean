@@ -27,3 +27,15 @@ and then:
 3-go to http://pi_address on your web browser on the controller device. You should be in the same network as the car. Also, you should make sure
 that the two machines can resolve machine names.
 
+
+----OPTIONAL-----
+
+If your controller device won't have internet connection, you can download the 2 necessary ros javascript files from a browser.
+This 2 scripts are located at:
+
+http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js
+
+http://static.robotwebtools.org/roslibjs/current/roslib.min.js
+
+you should format those 2 files for easier understanding of the code if you plan to read it.
+
