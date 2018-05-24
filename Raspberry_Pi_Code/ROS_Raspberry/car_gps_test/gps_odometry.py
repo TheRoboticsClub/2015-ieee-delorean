@@ -24,7 +24,7 @@ class gpsData:
 
 def fixCallback(fix, gps):
 
-    rospy.logifo(fix)
+    #rospy.loginfo(fix)
     gps.currentLatitude = fix.latitude
     gps.currentLongitude = fix.longitude
 
