@@ -10,7 +10,9 @@ import math
 
 class gpsData:
 
-    def ___init__(self):
+
+    def __init__(self):
+
         self.oldLatitude = 0
         self.oldLongitude = 0
         self.currentLatitude = 0
@@ -29,19 +31,19 @@ def fixCallback(fix, gps):
 def computeHeading(gps, dLat, dLong):
 
     latA = gps.oldLatitude
-    latB = gps.currentTimeLongitude
+    latB = gps.currentLongitude
     longA = gps.oldLongitude
     longB = gps.currentLongitude
 
     x = math.cos(latB) * math.sin(dLong)
-    y = math.cos(latA) * math.sin(latB) - math.sin(latA) * cos(latB)*cos(dLong)
+    y = math.cos(latA) * math.sin(latB) - math.sin(latA) * math.cos(latB)*math.cos(dLong)
     bearing = math.atan2(x, y)
-    rospy.logifo('bearing is', bearing)
+    print('bearing is', bearing)
 
 
 def positionDifference(gps):
 
-    while true:
+    while True:
         dLat = gps.currentLatitude - gps.oldLatitude
         dLong = gps.currentLongitude - gps.oldLongitude
 
@@ -56,8 +58,10 @@ def positionDifference(gps):
 if __name__ == '__main__':
 
     gps = gpsData()
+    rospy.init_node('gps_odom_node', anonymous=True)
     rospy.loginfo('GPS fixes reader initialized')
     rospy.Subscriber('/gps/fix', NavSatFix, fixCallback, gps)
     t = threading.Thread(target=positionDifference, args=(gps,))
     t.daemon = True
     t.start()
+    rospy.spin()
