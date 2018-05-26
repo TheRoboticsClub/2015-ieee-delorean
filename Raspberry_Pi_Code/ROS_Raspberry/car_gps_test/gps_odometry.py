@@ -31,7 +31,7 @@ def fixCallback(fix, gps):
 def computeHeading(gps, dLat, dLong):
 
     latA = gps.oldLatitude
-    latB = gps.currentLongitude
+    latB = gps.currentLatitude
     longA = gps.oldLongitude
     longB = gps.currentLongitude
 
