@@ -1,0 +1,11 @@
+<launch>
+  <node pkg='nmea_navsat_driver' type='nmea_serial_driver' name='nmea_serial_driver'>
+    <param name='port' value='/dev/ttyUSB0'>
+    <param name='baud' value='115200'>
+  </node>
+
+  <node pkg='topic_tools' type='relay' name='rename_topic'>
+    <param name='intopic' value='/fix'>
+    <param name='outtopic' value='/gps/fix'>
+  </node>  
+</launch>
