@@ -27,6 +27,36 @@ def velCallback(data, vel):
     vel.Yvector = data.twist.linear.y
 
 
+def getCompass(angle):
+
+    if(angle >= 0 and angle < 45):
+        print('this program is heading to the North!')
+
+    else if(angle >= 45 and angle < 90):
+        print('this program is heading to the NorthEast!')
+
+    else if(angle >= 90 and angle < 135):
+        print('this program is heading to the SouthEast!')
+
+    else if(angle >= 135 and angle < 180):
+        print('this program is heading to the South!')
+
+    else if(angle >= 180 and angle < 225):
+        print('this program is heading to the SouthWest!')
+
+    else if(angle >= 225 and angle < 270):
+        print('this program is heading to the West!')
+
+    else if(angle >= 270 and angle < 315):
+        print('this program is heading to the NorthWest!')
+
+    else if(angle >= 315 and angle < 360):
+        print('this program is heading to the North!')
+
+    else:
+        print('unknown orientation:', angle)
+
+
 def computeHeading(vel, pub):
 
     print('x speed vector is', vel.Xvector)
@@ -48,6 +78,7 @@ def computeHeading(vel, pub):
         print('unknown angle')
 
     print(mappedAngle)
+    getCompass(mappedAngle)
     velMsg = String()
     velMsg.data = mappedAngle
     pub.publish(velMsg)
