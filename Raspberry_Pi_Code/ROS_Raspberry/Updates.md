@@ -17,3 +17,12 @@ the file must contain the following line:
 KERNEL=="ttyUSB0", MODE="0666"
 
 That way the launch file and all its nodes should be launched without problem at start.
+
+The launch file we created runs:
+
+-Arduino node
+-Car watchdog node
+-rosbridge web node
+
+This allows us to have the car ready to run at start, whete it is controlled by the web browser interface or another
+ros controller node like ps3 controller
