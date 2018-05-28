@@ -34,3 +34,6 @@ Today we made another gps odometry node. Finally, we were able to calculate head
 using python.
 Now we have to implement this tool into a ROS python script. We have to save the current gps position and the old gps position from
 an older point in time so we can calculate de bearing and distance.
+
+We were able to make the ROS python scripts. It takes the difference between 2 points separated 1 second. It should
+calculate de distance between the 2 points and the bearing in degrees. Testing is pending.
