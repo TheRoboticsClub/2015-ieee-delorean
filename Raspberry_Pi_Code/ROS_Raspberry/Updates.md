@@ -1,4 +1,4 @@
-27, May 2018
+27, May 2018-------------------------------------------------------------------------------------------------------------------
 
 It was mandatory to make the new created launch file launch at start of the system. In order to do that, the following had to be
 done:
@@ -26,3 +26,11 @@ The launch file we created runs:
 
 This allows us to have the car ready to run at start, whete it is controlled by the web browser interface or another
 ros controller node like ps3 controller
+
+
+28, May 2018----------------------------------------------------------------------------------------------------------
+
+Today we made another gps odometry node. Finally, we were able to calculate heading and distance between 2 gps coordinate points
+using python.
+Now we have to implement this tool into a ROS python script. We have to save the current gps position and the old gps position from
+an older point in time so we can calculate de bearing and distance.
