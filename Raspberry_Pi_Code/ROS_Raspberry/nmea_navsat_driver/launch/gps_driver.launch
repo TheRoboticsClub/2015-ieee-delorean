@@ -6,4 +6,7 @@
 
   <node pkg='topic_tools' type='relay' name='rename_topic' args='/fix /gps/fix'>
   </node>
+
+  <node pkg='nmea_navsat_driver' type='gps_distance_bearing.py' name='distance_bearing_node'>
+  </node>
 </launch>
