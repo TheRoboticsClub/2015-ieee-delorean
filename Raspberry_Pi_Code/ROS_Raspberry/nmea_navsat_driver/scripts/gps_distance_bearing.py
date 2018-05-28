@@ -2,6 +2,7 @@
 
 import rospy
 from sensor_msgs.msg import NavSatFix
+from std_msgs.msg import String
 import time
 import calendar
 import threading
@@ -43,13 +44,20 @@ def computeBearing(lon1, lon2, lat1, lat2):
     print('bearing is:', brng)
     print('--------------------')
 
+    return (brng, d)
+
 
 def fixCallback(data, gps):
 
     #rospy.loginfo(data)
     gps.currentLatitude = data.latitude
     gps.currentLongitude = data.longitude
-    computeBearing(gps.oldLongitude, gps.currentLongitude, gps.oldLatitude, gps.currentLatitude)
+    (bearing, distance) = computeBearing(gps.oldLongitude, gps.currentLongitude, gps.oldLatitude, gps.currentLatitude)
+    msg = String()
+    msg.data = str(distance)
+    distance_pub.publish(msg)
+    msg.data = str(bearing)
+    bearing_pub.publish(msg)
     gps.oldLatitude = data.latitude
     gps.oldLongitude = data.longitude
 
@@ -59,6 +67,10 @@ if __name__ =='__main__':
     gps = gpsData()
     rospy.init_node('gps_odom_node', anonymous=True)
     rospy.loginfo('GPS fixes reader initialized')
+    global bearing_pub
+    global distance_pub
+    bearing_pub = rospy.Publisher('/gps/bearing', String, queue_size=10)
+    distance_pub = rospy.Publisher('/gps/distance', String, queue_size=10)
     rospy.Subscriber('/gps/fix', NavSatFix, fixCallback, gps)
     #t = threading.Thread(target=positionDifference, args=(gps,))
     #t.daemon = True
