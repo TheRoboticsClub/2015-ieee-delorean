@@ -55,6 +55,12 @@ We are not very sure if this node will do well.
 
 gps_path_planner <--- this node will take a coordinate point given by command line and calculate the distance and bearing between the car position and that point. In the next days, we will try to make the node do basic navigation (publish Twist messages based on bearing and distance calculated on this node)
 
+In order to achieve this, we have to know the maximum steering angle of the car. One very simple approach to this is to take physical meassures of the vehicle:
+
+![alt text](https://github.com/TheRoboticsClub/2015-ieee-delorean/blob/master/Project_Media/20180529_224544.jpg)
+![alt text](https://github.com/TheRoboticsClub/2015-ieee-delorean/blob/master/Project_Media/20180529_224630.jpg)
+![alt text](https://github.com/TheRoboticsClub/2015-ieee-delorean/blob/master/Project_Media/IMG_20180529_230145_177.jpg)
+
 
 
 
