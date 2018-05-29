@@ -37,3 +37,24 @@ an older point in time so we can calculate de bearing and distance.
 
 We were able to make the ROS python scripts. It takes the difference between 2 points separated 1 second. It should
 calculate de distance between the 2 points and the bearing in degrees. Testing is pending.
+
+
+29, May 2018----------------------------------------------------------------------------------------------------------
+
+Today we started gps_path_planer node. This node, as it is now, takes one coordinate point from command arguments and gets the distance between that coordinate and the actual car position. Also, if the distance is less that 5 meters, it prints
+an alert on the output. So, now we have this nodes about gps:
+
+nmea_serial_driver <---this node it´s simply the gps serial driver. Gives fixes in /fix topic
+
+topic_tools relay  <---this node redirects messages from /fix to /gps/fix
+
+gps_distance_bearing  <---this node gives the distance and bearing between 2 points separated 1 second (it gives information about the car heading and the distance traveled on 1 second). Publishes on /gps/bearing and /gps/distance
+
+gps_odometry_vel <--- same as before but the operations are done by looking into /vel topic data from the serial driver.
+We are not very sure if this node will do well.
+
+gps_path_planner <--- this node will take a coordinate point given by command line and calculate the distance and bearing between the car position and that point. In the next days, we will try to make the node do basic navigation (publish Twist messages based on bearing and distance calculated on this node)
+
+
+
+
