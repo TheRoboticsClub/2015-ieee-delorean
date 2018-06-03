@@ -53,9 +53,6 @@ def getDistance(lon1, lon2, lat1, lat2):
 
 def twistVehicle(distance, bearing):
 
-    steeringValue = 0.5
-    throttleValue = 0.5417
-
     if(bearing >= 0 and bearing < 26.56):
         steeringValue = (((bearing-0.0)*0.5)/MAXSTEERING) + 0.5
         print('steering to the right')
@@ -70,11 +67,7 @@ def twistVehicle(distance, bearing):
     elif(bearing < -26.56):
         steeringValue = 0.0
 
-    moveMsg = Twist()
-    moveMsg.angular.z = steeringValue
-    moveMsg.linear.x = throttleValue
-    pub.publish(moveMsg)
-
+    print(steeringValue)
 
 
 def fixCallback(data, args):
@@ -82,58 +75,41 @@ def fixCallback(data, args):
     goalLatitude = args[0]
     goalLongitude = args[1]
     gps_data = args[2]
+    currentLatitude = args[3]
+    currentLongitude = args[4]
     gps_data.currentLatitude = data.latitude
     gps_data.currentLongitude = data.longitude
 
-    (points_distance, bearing) = getDistance(float(gps_data.currentLongitude), float(goalLongitude), float(gps_data.currentLatitude), float(goalLatitude))
+    (points_distance, bearing) = getDistance(float(currentLongitude), float(goalLongitude), float(currentLatitude), float(goalLatitude))
     print(points_distance, bearing)
 
     if(points_distance < 5):
         print('you arrived at your destination!')
         print('orientation is', bearing, 'degrees')
-        stopCar()
 
     else:
         twistVehicle(points_distance, bearing)
 
-
-def stopCar():
-
-        stopMsg = Twist()
-        stopMsg.linear.x = 0.5
-        stopMsg.angular.z = 0.5
-        pub.publish(stopMsg)
-        print('stopping car!')
-
-
-def ping_sender(number):
-
-    while True:
-        hello_str = 'ping!'
-        #rospy.loginfo(hello_str)
-        pubping.publish(hello_str)
-        time.sleep(1)
+def hello(pub):
+    print('hello')
 
 
 if __name__ =='__main__':
 
     goalLatitude = sys.argv[1]
     goalLongitude = sys.argv[2]
+    currentLa = sys.argv[3]
+    currentLo = sys.argv[4]
     gps = gpsData()
 
-    callbackArguments = [goalLatitude, goalLongitude, gps]
+    callbackArguments = [goalLatitude, goalLongitude, gps, currentLa, currentLo]
     rospy.init_node('gps_path_planner', anonymous=True)
-    global pubping
-    pubping = rospy.Publisher('/ping', String, queue_size=10)
-    t = threading.Thread(target=ping_sender, args=(0,))
-    t.daemon = True
-    t.start()
-    global pub
-    pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
     rospy.Subscriber('/gps/fix', NavSatFix, fixCallback, callbackArguments)
-
+    pub = rospy.Publisher('/arduino/cmd_vel', Twist, queue_size=10)
+    global stopPub
+    stopPub = rospy.Publisher('/arduino/cmd_vel', Twist, queue_size=10)
     #rospy.Subscriber('/gps/distance', NavSatFix, fixCallback)
     #rospy.Subscriber('/gps/bearing', NavSatFix, fixCallback)
     #rospy.Subscriber('/vel', NavSatFix, fixCallback)
     rospy.spin()
-    rospy.on_shutdown(stopCar)
+    #rospy.on_shutdown(hello)
