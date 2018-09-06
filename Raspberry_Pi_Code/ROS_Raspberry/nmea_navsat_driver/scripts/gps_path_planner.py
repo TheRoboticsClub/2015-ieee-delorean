@@ -29,7 +29,7 @@ class compassObject:
 
     def __init__(self):
 
-        sefl.orientation = 0
+        self.orientation = 0
 
 
 def getDistance(lon1, lon2, lat1, lat2):
@@ -92,15 +92,16 @@ def fixCallback(data, args):
 
     else:
         #twistVehicle(points_distance, bearing)
+        pass
 
 
 def stopCar():
 
-        stopMsg = Twist()
-        stopMsg.linear.x = 0.5
-        stopMsg.angular.z = 0.5
-        pub.publish(stopMsg)
-        print('stopping car!')
+    stopMsg = Twist()
+    stopMsg.linear.x = 0.5
+    stopMsg.angular.z = 0.5
+    pub.publish(stopMsg)
+    print('stopping car!')
 
 
 def ping_sender(number):
@@ -135,6 +136,6 @@ if __name__ =='__main__':
     global pub
     pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
     rospy.Subscriber('/arduino/compass', Float32, compassCallback, compass)
-    rospy.Subscriber('/gps/fix', NavSatFix, fixCallback, FixcallbackArguments)
+    rospy.Subscriber('/fix', NavSatFix, fixCallback, FixcallbackArguments)
     rospy.spin()
     rospy.on_shutdown(stopCar)
