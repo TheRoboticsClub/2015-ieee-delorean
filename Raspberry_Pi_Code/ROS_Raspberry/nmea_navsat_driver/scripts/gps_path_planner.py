@@ -40,15 +40,7 @@ def getDistance(lon1, lon2, lat1, lat2):
     #print('----------------------------------------')
     #print('Im at: ', lat1, lon1, 'And the distence to', lat2, lon2, 'is', d)
     #print('----------------------------------------')
-
-    landa_1 = math.radians(lon1)
-    landa_2 = math.radians(lon2)
-
-    y = math.sin(landa_2-landa_1) * math.cos(phi_2)
-    x = math.cos(phi_1)*math.sin(phi_2) - math.sin(phi_1)*math.cos(phi_2)*math.cos(landa_2-landa_1)
-    brng = math.degrees(math.atan2(y, x))
-
-    return (d, brng)
+    return (d)
 
 
 def twistVehicle(distance, bearing):
@@ -85,16 +77,15 @@ def fixCallback(data, args):
     gps_data.currentLatitude = data.latitude
     gps_data.currentLongitude = data.longitude
 
-    (points_distance, bearing) = getDistance(float(gps_data.currentLongitude), float(goalLongitude), float(gps_data.currentLatitude), float(goalLatitude))
-    print(points_distance, bearing)
+    (points_distance) = getDistance(float(gps_data.currentLongitude), float(goalLongitude), float(gps_data.currentLatitude), float(goalLatitude))
+    print(points_distance)
 
     if(points_distance < 5):
         print('you arrived at your destination!')
-        print('orientation is', bearing, 'degrees')
         stopCar()
 
     else:
-        twistVehicle(points_distance, bearing)
+        #twistVehicle(points_distance, bearing)
 
 
 def stopCar():
