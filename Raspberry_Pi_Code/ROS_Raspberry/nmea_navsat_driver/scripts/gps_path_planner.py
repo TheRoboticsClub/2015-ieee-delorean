@@ -85,15 +85,16 @@ def fixCallback(data, args):
     orientation = args[3].orientation
 
     (points_distance) = getDistance(float(gps_data.currentLongitude), float(goalLongitude), float(gps_data.currentLatitude), float(goalLatitude))
-    print(points_distance)
+
+    print('Point to point distance:', points_distance)
+    print('Angle from North Pole:', orientation)
 
     if(points_distance < 5):
         print('you arrived at your destination!')
         stopCar()
 
     else:
-        #twistVehicle(points_distance, orientation)
-        pass
+        twistVehicle(points_distance, orientation)
 
 
 def stopCar():
@@ -116,7 +117,7 @@ def ping_sender(number):
 
 def compassCallback(data, compass):
 
-    compass.orientation = data
+    compass.orientation = data.data
     #print compass.orientation
 
 
@@ -137,6 +138,7 @@ if __name__ =='__main__':
     pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
     FixcallbackArguments = [goalLatitude, goalLongitude, gps, compass]
     rospy.Subscriber('/arduino/compass', Float32, compassCallback, compass)
+    time.sleep(2)
     rospy.Subscriber('/fix', NavSatFix, fixCallback, FixcallbackArguments)
     rospy.spin()
     rospy.on_shutdown(stopCar)
