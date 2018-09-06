@@ -49,23 +49,23 @@ def getDistance(lon1, lon2, lat1, lat2):
     return (d)
 
 
-def twistVehicle(distance, bearing):
+def twistVehicle(distance, orientation):
 
     steeringValue = 0.5
     throttleValue = 0.5417
 
-    if(bearing >= 0 and bearing < 26.56):
-        steeringValue = (((bearing-0.0)*0.5)/MAXSTEERING) + 0.5
+    if(orientation >= 0 and orientation < 26.56):
+        steeringValue = (((orientation-0.0)*0.5)/MAXSTEERING) + 0.5
         print('steering to the right')
 
-    elif(bearing > 26.56):
+    elif(orientation > 26.56):
         steeringValue = 1.0
 
-    elif(bearing > -26.56 and bearing < 0):
-        steeringValue = ((bearing+MAXSTEERING)*0.5/MAXSTEERING) + 0.0
+    elif(orientation > -26.56 and orientation < 0):
+        steeringValue = ((orientation+MAXSTEERING)*0.5/MAXSTEERING) + 0.0
         print('steering to the left')
 
-    elif(bearing < -26.56):
+    elif(orientation < -26.56):
         steeringValue = 0.0
 
     moveMsg = Twist()
@@ -82,6 +82,7 @@ def fixCallback(data, args):
     gps_data = args[2]
     gps_data.currentLatitude = data.latitude
     gps_data.currentLongitude = data.longitude
+    orientation = args[3].orientation
 
     (points_distance) = getDistance(float(gps_data.currentLongitude), float(goalLongitude), float(gps_data.currentLatitude), float(goalLatitude))
     print(points_distance)
@@ -91,7 +92,7 @@ def fixCallback(data, args):
         stopCar()
 
     else:
-        #twistVehicle(points_distance, bearing)
+        #twistVehicle(points_distance, orientation)
         pass
 
 
@@ -116,7 +117,7 @@ def ping_sender(number):
 def compassCallback(data, compass):
 
     compass.orientation = data
-    print compass.orientation
+    #print compass.orientation
 
 
 if __name__ =='__main__':
@@ -126,7 +127,6 @@ if __name__ =='__main__':
     gps = gpsData()
     compass = compassObject()
 
-    FixcallbackArguments = [goalLatitude, goalLongitude, gps]
     rospy.init_node('gps_path_planner', anonymous=True)
     global pubping
     pubping = rospy.Publisher('/ping', String, queue_size=10)
@@ -135,6 +135,7 @@ if __name__ =='__main__':
     t.start()
     global pub
     pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
+    FixcallbackArguments = [goalLatitude, goalLongitude, gps, compass]
     rospy.Subscriber('/arduino/compass', Float32, compassCallback, compass)
     rospy.Subscriber('/fix', NavSatFix, fixCallback, FixcallbackArguments)
     rospy.spin()
