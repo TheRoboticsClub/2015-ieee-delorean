@@ -3,6 +3,7 @@
 import rospy
 from sensor_msgs.msg import NavSatFix
 from std_msgs.msg import String
+from std_msgs.msg import Float32
 from geometry_msgs.msg import Twist
 import time
 import calendar
@@ -18,12 +19,17 @@ class gpsData:
 
     def __init__(self):
 
-        self.bearing = 0
         self.distance = 0
         self.currentLatitude = 0
         self.currentLongitude = 0
         self.oldLatitude = 0
         self.oldLongitude = 0
+
+class compassObject:
+
+    def __init__(self):
+
+        sefl.orientation = 0
 
 
 def getDistance(lon1, lon2, lat1, lat2):
@@ -106,13 +112,20 @@ def ping_sender(number):
         time.sleep(1)
 
 
+def compassCallback(data, compass):
+
+    compass.orientation = data
+    print compass.orientation
+
+
 if __name__ =='__main__':
 
     goalLatitude = sys.argv[1]
     goalLongitude = sys.argv[2]
     gps = gpsData()
+    compass = compassObject()
 
-    callbackArguments = [goalLatitude, goalLongitude, gps]
+    FixcallbackArguments = [goalLatitude, goalLongitude, gps]
     rospy.init_node('gps_path_planner', anonymous=True)
     global pubping
     pubping = rospy.Publisher('/ping', String, queue_size=10)
@@ -121,10 +134,7 @@ if __name__ =='__main__':
     t.start()
     global pub
     pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
-    rospy.Subscriber('/gps/fix', NavSatFix, fixCallback, callbackArguments)
-
-    #rospy.Subscriber('/gps/distance', NavSatFix, fixCallback)
-    #rospy.Subscriber('/gps/bearing', NavSatFix, fixCallback)
-    #rospy.Subscriber('/vel', NavSatFix, fixCallback)
+    rospy.Subscriber('/arduino/compass', Float32, compassCallback, compass)
+    rospy.Subscriber('/gps/fix', NavSatFix, fixCallback, FixcallbackArguments)
     rospy.spin()
     rospy.on_shutdown(stopCar)
