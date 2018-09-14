@@ -74,6 +74,11 @@ def twistVehicle(distance, orientation):
     pub.publish(moveMsg)
 
 
+def getBearing():
+
+    print('test')
+
+
 
 def fixCallback(data, args):
 
@@ -85,9 +90,10 @@ def fixCallback(data, args):
     orientation = args[3].orientation
 
     (points_distance) = getDistance(float(gps_data.currentLongitude), float(goalLongitude), float(gps_data.currentLatitude), float(goalLatitude))
+    (points_bearing) = getBearing()
 
     print('Point to point distance:', points_distance)
-    print('Angle from North Pole:', orientation)
+    print('Angle from car to North Pole:', orientation)
 
     if(points_distance < 5):
         print('you arrived at your destination!')
