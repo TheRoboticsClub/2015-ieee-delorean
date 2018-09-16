@@ -49,7 +49,7 @@ def getDistance(lon1, lon2, lat1, lat2):
     return (d)
 
 
-def twistVehicle(distance, orientation):
+def twistVehicle(distance, orientation, steeringParameter):
 
     steeringValue = 0.5
     throttleValue = 0.5417
@@ -59,14 +59,14 @@ def twistVehicle(distance, orientation):
         print('steering to the right')
 
     elif(orientation > 26.56):
-        steeringValue = 1.0
+        steeringValue = 1.0 - steeringParameter
 
     elif(orientation > -26.56 and orientation < 0):
         steeringValue = ((orientation+MAXSTEERING)*0.5/MAXSTEERING) + 0.0
         print('steering to the left')
 
     elif(orientation < -26.56):
-        steeringValue = 0.0
+        steeringValue = 0.0 + steeringParameter
 
     moveMsg = Twist()
     moveMsg.angular.z = steeringValue
@@ -88,6 +88,7 @@ def fixCallback(data, args):
     gps_data.currentLatitude = data.latitude
     gps_data.currentLongitude = data.longitude
     orientation = args[3].orientation
+    steeringParameter = args[4]
 
     (points_distance) = getDistance(float(gps_data.currentLongitude), float(goalLongitude), float(gps_data.currentLatitude), float(goalLatitude))
     (points_bearing) = getBearing()
@@ -100,7 +101,7 @@ def fixCallback(data, args):
         stopCar()
 
     else:
-        twistVehicle(points_distance, orientation)
+        twistVehicle(points_distance, orientation, steeringParameter)
 
 
 def stopCar():
@@ -126,11 +127,19 @@ def compassCallback(data, compass):
     compass.orientation = data.data
     #print compass.orientation
 
+def startRoutine():
+
+    moveMsg = Twist()
+    moveMsg.angular.z = 0.0
+    moveMsg.linear.x = 0.54
+    pub.publish(moveMsg)
+
 
 if __name__ =='__main__':
 
     goalLatitude = sys.argv[1]
     goalLongitude = sys.argv[2]
+    steeringParameter = sys.argv[3]
     gps = gpsData()
     compass = compassObject()
 
@@ -142,7 +151,8 @@ if __name__ =='__main__':
     t.start()
     global pub
     pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
-    FixcallbackArguments = [goalLatitude, goalLongitude, gps, compass]
+    startRoutine()
+    FixcallbackArguments = [goalLatitude, goalLongitude, gps, compass, steeringParameter]
     rospy.Subscriber('/arduino/compass', Float32, compassCallback, compass)
     time.sleep(2)
     rospy.Subscriber('/fix', NavSatFix, fixCallback, FixcallbackArguments)
