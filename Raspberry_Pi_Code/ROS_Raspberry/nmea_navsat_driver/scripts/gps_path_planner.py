@@ -46,7 +46,31 @@ def getDistance(lon1, lon2, lat1, lat2):
     #print('----------------------------------------')
     #print('Im at: ', lat1, lon1, 'And the distence to', lat2, lon2, 'is', d)
     #print('----------------------------------------')
-    return (d)
+
+    #This next code is to calculate the points angle
+
+    #lon1 is currentLongitude, lon2 is goalLongitude, lat1 is currentLatitude and lat2 is goalLatitude
+
+    targetLong = lon2
+    currentLong = lon1
+    targetLat = lat1
+    currentLat = lat2
+
+    dlon = math.radians(targetLong-currentLong)
+    cLat = math.radians(currentLat)
+    tLat = math.radians(targetLat)
+    a1 = sin(dlon) * cos(tLat)
+    a2 = sin(cLat) * cos(tLat) * cos(dlon)
+    a2 = cos(cLat) * sin(tLat) - a2
+    a2 = atan2(a1, a2)
+    if (a2 < 0.0)
+    {
+        a2 += (math.pi)*2
+    }
+    targetHeading = math.degrees(a2)
+    TwoPointAngle = targetHeading
+
+    return (d, TwoPointAngle)
 
 
 def twistVehicle(distance, orientation, steeringParameter):
@@ -74,11 +98,6 @@ def twistVehicle(distance, orientation, steeringParameter):
     pub.publish(moveMsg)
 
 
-def getBearing():
-
-    print('test')
-
-
 
 def fixCallback(data, args):
 
@@ -90,18 +109,18 @@ def fixCallback(data, args):
     orientation = args[3].orientation
     steeringParameter = args[4]
 
-    (points_distance) = getDistance(float(gps_data.currentLongitude), float(goalLongitude), float(gps_data.currentLatitude), float(goalLatitude))
-    (points_bearing) = getBearing()
+    (points_distance, TwoPointAngle) = getDistance(float(gps_data.currentLongitude), float(goalLongitude), float(gps_data.currentLatitude), float(goalLatitude), float(orientation))
+
 
     print('Point to point distance:', points_distance)
-    print('Angle from car to North Pole:', orientation)
+    print('Angle to steer:', TwoPointAngle)
 
     if(points_distance < 5):
         print('you arrived at your destination!')
         stopCar()
 
     else:
-        twistVehicle(points_distance, orientation, steeringParameter)
+        #twistVehicle(points_distance, orientation, steeringParameter)
 
 
 def stopCar():
