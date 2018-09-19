@@ -32,7 +32,7 @@ class compassObject:
         self.orientation = 0
 
 
-def getDistance(lon1, lon2, lat1, lat2):
+def getDistance(lon1, lon2, lat1, lat2, orientation):
 
 
     phi_1 = math.radians(lat1)
@@ -59,16 +59,15 @@ def getDistance(lon1, lon2, lat1, lat2):
     dlon = math.radians(targetLong-currentLong)
     cLat = math.radians(currentLat)
     tLat = math.radians(targetLat)
-    a1 = sin(dlon) * cos(tLat)
-    a2 = sin(cLat) * cos(tLat) * cos(dlon)
-    a2 = cos(cLat) * sin(tLat) - a2
+    a1 = math.sin(dlon) * math.cos(tLat)
+    a2 = math.sin(cLat) * math.cos(tLat) * cos(dlon)
+    a2 = math.cos(cLat) * math.sin(tLat) - a2
     a2 = atan2(a1, a2)
-    if (a2 < 0.0)
-    {
+    if (a2 < 0.0):
         a2 += (math.pi)*2
-    }
+
     targetHeading = math.degrees(a2)
-    TwoPointAngle = targetHeading
+    TwoPointAngle = targetHeading - orientation
 
     return (d, TwoPointAngle)
 
@@ -121,6 +120,7 @@ def fixCallback(data, args):
 
     else:
         #twistVehicle(points_distance, orientation, steeringParameter)
+        print('Angle to target is:', TwoPointAngle)
 
 
 def stopCar():
