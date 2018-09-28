@@ -74,22 +74,22 @@ def getDistance(lon1, lon2, lat1, lat2, orientation):
 
 def twistVehicle(distance, orientation, steeringParameter):
 
-    steeringValue = 0.5
-    throttleValue = 0.5417
+    if(orientation < -180):
+        orientation = orientation + 360
+    if(orientation > 180):
+        orientation = orientation - 360
 
-    if(orientation >= 0 and orientation < 26.56):
-        steeringValue = (((orientation-0.0)*0.5)/MAXSTEERING) + 0.5
-        print('steering to the right')
+    if(math.abs(orientation) <= 5):
+        steeringValue = 0.5
 
-    elif(orientation > 26.56):
-        steeringValue = 1.0 - steeringParameter
+    elif(orientation < 0):
+        steeringValue = 0.25 - steeringParameter #left
 
-    elif(orientation > -26.56 and orientation < 0):
-        steeringValue = ((orientation+MAXSTEERING)*0.5/MAXSTEERING) + 0.0
-        print('steering to the left')
+    elif(orientation > 0):
+        steeringValue = 0.75 + steeringParameter #right
 
-    elif(orientation < -26.56):
-        steeringValue = 0.0 + steeringParameter
+    else:
+        steeringValue = 0.5
 
     moveMsg = Twist()
     moveMsg.angular.z = steeringValue
@@ -117,9 +117,10 @@ def fixCallback(data, args):
     if(points_distance < 5):
         print('you arrived at your destination!')
         stopCar()
+        rospy.signal_shutdown("Node stopped because the car reached it's destination")
 
     else:
-        #twistVehicle(points_distance, orientation, steeringParameter)
+        twistVehicle(points_distance, orientation, steeringParameter)
         print('Angle to target is:', TwoPointAngle)
 
 
@@ -149,31 +150,37 @@ def compassCallback(data, compass):
 def startRoutine():
 
     moveMsg = Twist()
-    moveMsg.angular.z = 0.0
+    moveMsg.angular.z = 0.5
     moveMsg.linear.x = 0.54
     pub.publish(moveMsg)
+    time.sleep(1)
 
 
 if __name__ =='__main__':
 
-    goalLatitude = sys.argv[1]
-    goalLongitude = sys.argv[2]
-    steeringParameter = sys.argv[3]
-    gps = gpsData()
-    compass = compassObject()
+    try:
+        goalLatitude = sys.argv[1]
+        goalLongitude = sys.argv[2]
+        steeringParameter = sys.argv[3]
+        gps = gpsData()
+        compass = compassObject()
 
-    rospy.init_node('gps_path_planner', anonymous=True)
-    global pubping
-    pubping = rospy.Publisher('/ping', String, queue_size=10)
-    t = threading.Thread(target=ping_sender, args=(0,))
-    t.daemon = True
-    t.start()
-    global pub
-    pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
-    startRoutine()
-    FixcallbackArguments = [goalLatitude, goalLongitude, gps, compass, steeringParameter]
-    rospy.Subscriber('/arduino/compass', Float32, compassCallback, compass)
-    time.sleep(2)
-    rospy.Subscriber('/fix', NavSatFix, fixCallback, FixcallbackArguments)
-    rospy.spin()
-    rospy.on_shutdown(stopCar)
+        rospy.init_node('gps_path_planner', anonymous=True)
+        global pubping
+        pubping = rospy.Publisher('/ping', String, queue_size=10)
+        t = threading.Thread(target=ping_sender, args=(0,))
+        t.daemon = True
+        t.start()
+        global pub
+        pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
+        startRoutine()
+        FixcallbackArguments = [goalLatitude, goalLongitude, gps, compass, steeringParameter]
+        rospy.Subscriber('/arduino/compass', Float32, compassCallback, compass)
+        time.sleep(1)
+        rospy.Subscriber('/fix', NavSatFix, fixCallback, FixcallbackArguments)
+        rospy.spin()
+        rospy.on_shutdown(stopCar)
+
+    except IndexError:
+
+        print "Usage: goalLatitude goalLongitude steeringAdjustValue"
