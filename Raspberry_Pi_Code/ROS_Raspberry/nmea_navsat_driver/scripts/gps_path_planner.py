@@ -60,9 +60,9 @@ def getDistance(lon1, lon2, lat1, lat2, orientation):
     cLat = math.radians(currentLat)
     tLat = math.radians(targetLat)
     a1 = math.sin(dlon) * math.cos(tLat)
-    a2 = math.sin(cLat) * math.cos(tLat) * cos(dlon)
+    a2 = math.sin(cLat) * math.cos(tLat) * math.cos(dlon)
     a2 = math.cos(cLat) * math.sin(tLat) - a2
-    a2 = atan2(a1, a2)
+    a2 = math.atan2(a1, a2)
     if (a2 < 0.0):
         a2 += (math.pi)*2
 
@@ -79,18 +79,23 @@ def twistVehicle(distance, orientation, steeringParameter):
     if(orientation > 180):
         orientation = orientation - 360
 
-    if(math.abs(orientation) <= 5):
+    if(math.fabs(orientation) <= 5):
         steeringValue = 0.5
+        print "Going straight"
 
     elif(orientation < 0):
-        steeringValue = 0.25 - steeringParameter #left
+        steeringValue = 0.25 - float(steeringParameter) #left
+        print "Going left",steeringValue
 
     elif(orientation > 0):
-        steeringValue = 0.75 + steeringParameter #right
+        steeringValue = 0.75 + float(steeringParameter) #right
+        print "Going right",steeringValue
 
     else:
         steeringValue = 0.5
-
+        print "Going straight"
+    
+    throttleValue = 0.547
     moveMsg = Twist()
     moveMsg.angular.z = steeringValue
     moveMsg.linear.x = throttleValue
