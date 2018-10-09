@@ -84,12 +84,12 @@ def twistVehicle(distance, orientation, steeringParameter):
         print "Going straight"
 
     elif(orientation < 0):
-        steeringValue = 0.25 - float(steeringParameter) #left
-        print "Going left",steeringValue
+        steeringValue = 0.65 + float(steeringParameter) #left
+        print "Going right",steeringValue
 
     elif(orientation > 0):
-        steeringValue = 0.75 + float(steeringParameter) #right
-        print "Going right",steeringValue
+        steeringValue = 0.35 - float(steeringParameter) #right
+        print "Going left",steeringValue
 
     else:
         steeringValue = 0.5
