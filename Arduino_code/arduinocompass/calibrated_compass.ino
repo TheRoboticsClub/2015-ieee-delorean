@@ -23,6 +23,9 @@ float fZm = 0;
 
 ros::NodeHandle nh;
 
+std_msgs::Float32 float_msg;
+ros::Publisher chatter("/arduino/compass", &float_msg);
+
 void setup()
 {
   Serial.begin(9600);
