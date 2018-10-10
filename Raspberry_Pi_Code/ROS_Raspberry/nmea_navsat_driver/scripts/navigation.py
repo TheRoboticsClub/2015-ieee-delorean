@@ -84,12 +84,12 @@ def twistVehicle(distance, orientation, steeringParameter):
         print "Going straight"
 
     elif(orientation < 0):
-        steeringValue = 0.65 + float(steeringParameter) #left
-        print "Going right",steeringValue
+        steeringValue = 0.35 + float(steeringParameter) #left
+        print "Going left",steeringValue
 
     elif(orientation > 0):
-        steeringValue = 0.35 - float(steeringParameter) #right
-        print "Going left",steeringValue
+        steeringValue = 0.65 - float(steeringParameter) #right
+        print "Going right",steeringValue
 
     else:
         steeringValue = 0.5
@@ -149,7 +149,17 @@ def ping_sender(number):
 
 def compassCallback(data, compass):
 
+    
     compass.orientation = data.data
+    compass.orientation = math.radians(compass.orientation - 0.011)
+    if(compass.orientation < 0):
+        compass.orientation = compass.orientation + 2*math.pi
+       
+    if(compass.orientation > 2*math.pi):
+        compass.orientation = compass.orientation - 2*math.py
+     
+     compass.orientation = math.degrees(compass.orientation)
+        
     #print compass.orientation
 
 def startRoutine():
