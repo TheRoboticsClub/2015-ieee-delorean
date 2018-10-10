@@ -28,7 +28,7 @@ def twistVehicle(orientation, steeringParameter,tparameter):
 
     
     if(orientation < 180):
-        Left = (orientation*0.2)/180
+        Left = ((orientation-360)*0.2)/(180-360)
         steeringValue = 0.35 - Left #float(steeringParameter) #left
         print "Going left",steeringValue
 
