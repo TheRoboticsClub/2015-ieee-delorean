@@ -72,7 +72,7 @@ def getDistance(lon1, lon2, lat1, lat2, orientation):
     return (d, TwoPointAngle)
 
 
-def twistVehicle(distance, orientation, steeringParameter):
+def twistVehicle(distance, orientation, steeringParameter, tparameter):
 
     if(orientation < -180):
         orientation = orientation + 360
@@ -95,7 +95,7 @@ def twistVehicle(distance, orientation, steeringParameter):
         steeringValue = 0.5
         print "Going straight"
     
-    throttleValue = 0.547
+    throttleValue = 0.547 + tparameter
     moveMsg = Twist()
     moveMsg.angular.z = steeringValue
     moveMsg.linear.x = throttleValue
@@ -112,6 +112,7 @@ def fixCallback(data, args):
     gps_data.currentLongitude = data.longitude
     orientation = args[3].orientation
     steeringParameter = args[4]
+    tparameter = args[5]
 
     (points_distance, TwoPointAngle) = getDistance(float(gps_data.currentLongitude), float(goalLongitude), float(gps_data.currentLatitude), float(goalLatitude), float(orientation))
 
@@ -125,7 +126,7 @@ def fixCallback(data, args):
         rospy.signal_shutdown("Node stopped because the car reached it's destination")
 
     else:
-        twistVehicle(points_distance, orientation, steeringParameter)
+        twistVehicle(points_distance, orientation, steeringParameter, tparameter)
         print('Angle to target is:', TwoPointAngle)
 
 
@@ -167,6 +168,7 @@ if __name__ =='__main__':
         goalLatitude = sys.argv[1]
         goalLongitude = sys.argv[2]
         steeringParameter = sys.argv[3]
+        tparameter = sys.argv[4]
         gps = gpsData()
         compass = compassObject()
 
@@ -179,7 +181,7 @@ if __name__ =='__main__':
         global pub
         pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
         startRoutine()
-        FixcallbackArguments = [goalLatitude, goalLongitude, gps, compass, steeringParameter]
+        FixcallbackArguments = [goalLatitude, goalLongitude, gps, compass, steeringParameter, tparameter]
         rospy.Subscriber('/arduino/compass', Float32, compassCallback, compass)
         time.sleep(1)
         rospy.Subscriber('/fix', NavSatFix, fixCallback, FixcallbackArguments)
