@@ -87,11 +87,13 @@ def twistVehicle(currentHeading, steeringParameter, tparameter):
         print "Going straight"
 
     elif(orientation < 0):
-        steeringValue = 0.35 + float(steeringParameter) #left
+        Left = (headingError*0.5)/90
+        steeringValue = 0.35 - Left - float(steeringParameter) #left
         print "Going left",steeringValue
 
     elif(orientation > 0):
-        steeringValue = 0.65 - float(steeringParameter) #right
+        Right = ((headingError-360)*0.5)/(270-360)
+        steeringValue = 0.65 + Right + float(steeringParameter) #right
         print "Going right",steeringValue
 
     else:
