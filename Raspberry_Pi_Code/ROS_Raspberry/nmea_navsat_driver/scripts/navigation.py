@@ -32,7 +32,7 @@ class compassObject:
         self.orientation = 0
 
 
-def getDistance(lon1, lon2, lat1, lat2, orientation):
+def getDistance(lon1, lon2, lat1, lat2):
 
 
     phi_1 = math.radians(lat1)
@@ -43,19 +43,19 @@ def getDistance(lon1, lon2, lat1, lat2, orientation):
     a = math.sin(phi_delta/2) * math.sin(phi_delta/2) + math.cos(phi_1) * math.cos(phi_2) * math.sin(landa_delta/2) * math.sin(landa_delta/2)
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
     d = R * c
-    #print('----------------------------------------')
-    #print('Im at: ', lat1, lon1, 'And the distence to', lat2, lon2, 'is', d)
-    #print('----------------------------------------')
 
-    #This next code is to calculate the points angle
+    return d
 
-    #lon1 is currentLongitude, lon2 is goalLongitude, lat1 is currentLatitude and lat2 is goalLatitude
 
-    targetLong = lon2
-    currentLong = lon1
-    targetLat = lat1
-    currentLat = lat2
+def getHeadingError(currentHeading, currentLat, currentLong, targetLat, targetLong):
 
+
+    dlon = 0
+    cLat = 0
+    tLat = 0
+    a1 = 0
+    a2 = 0
+    targetHeading = 0
     dlon = math.radians(targetLong-currentLong)
     cLat = math.radians(currentLat)
     tLat = math.radians(targetLat)
@@ -64,20 +64,23 @@ def getDistance(lon1, lon2, lat1, lat2, orientation):
     a2 = math.cos(cLat) * math.sin(tLat) - a2
     a2 = math.atan2(a1, a2)
     if (a2 < 0.0):
-        a2 += (math.pi)*2
+        a2 = a2 + 2*math.pi
 
     targetHeading = math.degrees(a2)
-    TwoPointAngle = targetHeading - orientation
 
-    return (d, TwoPointAngle)
+    headingError = targetHeading - currentHeading
+
+    return headingError
 
 
-def twistVehicle(distance, orientation, steeringParameter):
 
-    if(orientation < -180):
-        orientation = orientation + 360
-    if(orientation > 180):
-        orientation = orientation - 360
+def twistVehicle(currentHeading, steeringParameter, tparameter):
+
+    if (headingError < -180):
+        headingError += 360
+
+    if (headingError > 180):
+        headingError -= 360
 
     if(math.fabs(orientation) <= 5):
         steeringValue = 0.5
@@ -94,8 +97,8 @@ def twistVehicle(distance, orientation, steeringParameter):
     else:
         steeringValue = 0.5
         print "Going straight"
-    
-    throttleValue = 0.547
+
+    throttleValue = 0.547 + float(tparameter)
     moveMsg = Twist()
     moveMsg.angular.z = steeringValue
     moveMsg.linear.x = throttleValue
@@ -105,19 +108,21 @@ def twistVehicle(distance, orientation, steeringParameter):
 
 def fixCallback(data, args):
 
-    goalLatitude = args[0]
-    goalLongitude = args[1]
+    targetLat = args[0]
+    targetLong = args[1]
     gps_data = args[2]
     gps_data.currentLatitude = data.latitude
     gps_data.currentLongitude = data.longitude
-    orientation = args[3].orientation
+
+    currentLat = gps_data.currentLatitude
+    currentLong = gps_data.currentLongitude
+    currentHeading = args[3].orientation
     steeringParameter = args[4]
+    tparameter = args[5]
 
-    (points_distance, TwoPointAngle) = getDistance(float(gps_data.currentLongitude), float(goalLongitude), float(gps_data.currentLatitude), float(goalLatitude), float(orientation))
+    points_distance = getDistance(float(currentLong), float(targetLong), float(currentLat), float(targetLat))
+    headingError = getHeadingError(currentHeading, currentLat, currentLong, targetLat, targetLong)
 
-
-    print('Point to point distance:', points_distance)
-    print('Angle to steer:', TwoPointAngle)
 
     if(points_distance < 5):
         print('you arrived at your destination!')
@@ -125,9 +130,13 @@ def fixCallback(data, args):
         rospy.signal_shutdown("Node stopped because the car reached it's destination")
 
     else:
-        twistVehicle(points_distance, orientation, steeringParameter)
-        print('Angle to target is:', TwoPointAngle)
-
+        print("")
+        print("")
+        print("Calculated distance to point:", points_distance)
+        print("Calculated heading error to point:", headingError)
+        twistVehicle(headingError, steeringParameter, tparameter)
+        print("")
+        print("")
 
 def stopCar():
 
@@ -136,6 +145,7 @@ def stopCar():
     stopMsg.angular.z = 0.5
     pub.publish(stopMsg)
     print('stopping car!')
+
 
 
 def ping_sender(number):
@@ -149,17 +159,17 @@ def ping_sender(number):
 
 def compassCallback(data, compass):
 
-    
+
     compass.orientation = data.data
     compass.orientation = math.radians(compass.orientation - 0.011)
     if(compass.orientation < 0):
         compass.orientation = compass.orientation + 2*math.pi
-       
+
     if(compass.orientation > 2*math.pi):
         compass.orientation = compass.orientation - 2*math.py
-     
+
      compass.orientation = math.degrees(compass.orientation)
-        
+
     #print compass.orientation
 
 def startRoutine():
@@ -177,6 +187,7 @@ if __name__ =='__main__':
         goalLatitude = sys.argv[1]
         goalLongitude = sys.argv[2]
         steeringParameter = sys.argv[3]
+        tparameter = sys.argv[4]
         gps = gpsData()
         compass = compassObject()
 
@@ -189,7 +200,7 @@ if __name__ =='__main__':
         global pub
         pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
         startRoutine()
-        FixcallbackArguments = [goalLatitude, goalLongitude, gps, compass, steeringParameter]
+        FixcallbackArguments = [goalLatitude, goalLongitude, gps, compass, steeringParameter, tparameter]
         rospy.Subscriber('/arduino/compass', Float32, compassCallback, compass)
         time.sleep(1)
         rospy.Subscriber('/fix', NavSatFix, fixCallback, FixcallbackArguments)
@@ -198,4 +209,4 @@ if __name__ =='__main__':
 
     except IndexError:
 
-        print "Usage: goalLatitude goalLongitude steeringAdjustValue"
+        print "Usage: goalLatitude goalLongitude steeringAdjustValue throttleAdjustValue"
