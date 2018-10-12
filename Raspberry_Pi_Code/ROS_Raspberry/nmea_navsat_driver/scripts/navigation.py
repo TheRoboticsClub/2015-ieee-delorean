@@ -74,6 +74,13 @@ def getHeadingError(currentHeading, currentLat, currentLong, targetLat, targetLo
 
 
 
+def mapFunction(OldValue, OldMin, OldMax, NewMin, NewMax):
+
+    NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
+    return NewValue
+
+
+
 def twistVehicle(currentHeading, steeringParameter, tparameter):
 
     if (headingError < -180):
@@ -84,22 +91,23 @@ def twistVehicle(currentHeading, steeringParameter, tparameter):
 
     if(math.fabs(headingError) <= 5):
         steeringValue = 0.5
-        print "Going straight"
+        print ("Going straight")
 
     elif(headingError < 0):
-        
-        Left = (headingError*0.5)/90 #instead of 180 maximum, just testing
-        steeringValue = 0.35 - Left - float(steeringParameter) #left
-        print "Going left",steeringValue
+
+        # value, oldmin, oldmax, newmin, newmax
+        Left = mapFunction(headingError, 0, -180, 0.5, 0.0)
+        steeringValue = Left #left
+        print ("Going left",steeringValue)
 
     elif(headingError > 0):
-        Right = ((headingError-360)*0.5)/(270-360) #same as the other
-        steeringValue = 0.65 + Right + float(steeringParameter) #right
-        print "Going right",steeringValue
+        Right = mapFunction(headingError, 0, 180, 0.5, 1.0)
+        steeringValue = Right #right
+        print ("Going right",steeringValue)
 
     else:
         steeringValue = 0.5
-        print "Going straight"
+        print ("Going straight")
 
     throttleValue = 0.547 + float(tparameter)
     moveMsg = Twist()
@@ -140,6 +148,7 @@ def fixCallback(data, args):
         twistVehicle(headingError, steeringParameter, tparameter)
         print("")
         print("")
+
 
 def stopCar():
 
