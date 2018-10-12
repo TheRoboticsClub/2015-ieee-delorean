@@ -96,12 +96,12 @@ def twistVehicle(currentHeading, steeringParameter, tparameter):
     elif(headingError < 0):
 
         # value, oldmin, oldmax, newmin, newmax
-        Left = mapFunction(headingError, 0, -180, 0.5, 0.0)
+        Left = mapFunction(headingError, 0, -180, 0.5, 0.18)
         steeringValue = Left #left
         print ("Going left",steeringValue)
 
     elif(headingError > 0):
-        Right = mapFunction(headingError, 0, 180, 0.5, 1.0)
+        Right = mapFunction(headingError, 0, 180, 0.5, 0.84)
         steeringValue = Right #right
         print ("Going right",steeringValue)
 
