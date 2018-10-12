@@ -176,9 +176,9 @@ def startRoutine():
 
     moveMsg = Twist()
     moveMsg.angular.z = 0.5
-    moveMsg.linear.x = 0.54
+    moveMsg.linear.x = 0.547
     pub.publish(moveMsg)
-    time.sleep(1)
+    time.sleep(2)
 
 
 if __name__ =='__main__':
