@@ -82,7 +82,7 @@ def twistVehicle(currentHeading, steeringParameter, tparameter):
     if (headingError > 180):
         headingError -= 360
 
-    if(math.fabs(orientation) <= 5):
+    if(math.fabs(headingError) <= 5):
         steeringValue = 0.5
         print "Going straight"
 
