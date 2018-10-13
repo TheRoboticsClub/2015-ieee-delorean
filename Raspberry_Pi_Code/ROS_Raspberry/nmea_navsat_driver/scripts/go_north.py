@@ -69,6 +69,7 @@ def fixCallback(data, args):
     tparameter = args[1]
     orientation = args[2].orientation
     twistVehicle(orientation, steeringParameter, tparameter)
+    print orientation
 
 
 def stopCar():
