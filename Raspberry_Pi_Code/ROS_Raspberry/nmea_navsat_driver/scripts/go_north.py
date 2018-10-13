@@ -1,3 +1,11 @@
+#!/usr/bin/env python
+
+import rospy
+from sensor_msgs.msg import NavSatFix
+from std_msgs.msg import String
+from std_msgs.msg import Float32
+from geometry_msgs.msg import Twist
+import time
 import calendar
 import threading
 import math
@@ -24,23 +32,29 @@ class compassObject:
         self.orientation = 0
 
 
+def mapFunction(OldValue, OldMin, OldMax, NewMin, NewMax):
+
+    NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
+    return NewValue
+
+
 def twistVehicle(orientation, steeringParameter,tparameter):
 
-    
+
     if(orientation < 180):
-        Left = ((orientation-360)*0.2)/(180-360)
-        steeringValue = 0.35 - Left #float(steeringParameter) #left
+        Left = mapFunction(Left, 0, 180, 0.5, 0.84)
+        steeringValue = Left #float(steeringParameter) #left
         print "Going left",steeringValue
 
     elif(orientation > 180):
-        Right = (orientation*0.2)/180
-        steeringValue = 0.65 + Right #float(steeringParameter) #right
+        Right = mapFunction(Right, 360, 180, 0.5, 0.14)
+        steeringValue = Right #float(steeringParameter) #right
         print "Going right",steeringValue
 
     else:
         steeringValue = 0.5
         print "Going straight"
-    
+
     throttleValue = 0.547 + tparameter
     moveMsg = Twist()
     moveMsg.angular.z = steeringValue
@@ -77,17 +91,17 @@ def ping_sender(number):
 
 def compassCallback(data, compass):
 
-    
+
     compass.orientation = data.data
     compass.orientation = math.radians(compass.orientation - 0.011)
     if(compass.orientation < 0):
         compass.orientation = compass.orientation + 2*math.pi
-       
+
     if(compass.orientation > 2*math.pi):
         compass.orientation = compass.orientation - 2*math.py
-     
+
      compass.orientation = math.degrees(compass.orientation)
-        
+
     #print compass.orientation
 
 def startRoutine():
