@@ -77,6 +77,7 @@ Heading += 360;
 Serial.print("Pitch (X): "); Serial.print(pitch_print); Serial.print("  ");
 Serial.print("Roll (Y): "); Serial.print(roll_print); Serial.print("  ");
 Serial.print("Heading: "); Serial.println(Heading);
+float_msg.data = Heading;
 chatter.publish( &float_msg );
 nh.spinOnce();
 delay(250);
