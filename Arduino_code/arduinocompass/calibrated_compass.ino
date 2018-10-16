@@ -80,5 +80,5 @@ Serial.print("Heading: "); Serial.println(Heading);
 float_msg.data = Heading;
 chatter.publish( &float_msg );
 nh.spinOnce();
-delay(250);
+delay(100);
 }
