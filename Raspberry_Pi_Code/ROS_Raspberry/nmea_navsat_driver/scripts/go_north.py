@@ -32,30 +32,76 @@ class compassObject:
         self.orientation = 0
 
 
-def mapFunction(OldValue, OldMin, OldMax, NewMin, NewMax):
-
-    NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
-    return NewValue
+def getDistance(lon1, lon2, lat1, lat2, orientation):
 
 
-def twistVehicle(orientation, steeringParameter,tparameter):
+    phi_1 = math.radians(lat1)
+    phi_2 = math.radians(lat2)
+    phi_delta = math.radians(lat2-lat1)
+    landa_delta = math.radians(lon2-lon1)
+
+    a = math.sin(phi_delta/2) * math.sin(phi_delta/2) + math.cos(phi_1) * math.cos(phi_2) * math.sin(landa_delta/2) * math.sin(landa_delta/2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    d = R * c
+    #print('----------------------------------------')
+    #print('Im at: ', lat1, lon1, 'And the distence to', lat2, lon2, 'is', d)
+    #print('----------------------------------------')
+
+    #This next code is to calculate the points angle
+
+    #lon1 is currentLongitude, lon2 is goalLongitude, lat1 is currentLatitude and lat2 is goalLatitude
+
+    targetLong = lon2
+    currentLong = lon1
+    targetLat = lat1
+    currentLat = lat2
+
+    dlon = math.radians(targetLong-currentLong)
+    cLat = math.radians(currentLat)
+    tLat = math.radians(targetLat)
+    a1 = math.sin(dlon) * math.cos(tLat)
+    a2 = math.sin(cLat) * math.cos(tLat) * math.cos(dlon)
+    a2 = math.cos(cLat) * math.sin(tLat) - a2
+    a2 = math.atan2(a1, a2)
+    if (a2 < 0.0):
+        a2 += (math.pi)*2
+
+    targetHeading = math.degrees(a2)
+    TwoPointAngle = targetHeading - orientation
+
+    return (d, TwoPointAngle)
 
 
-    if(orientation < 180):
-        Left = mapFunction(Left, 0, 180, 0.5, 0.84)
-        steeringValue = Left #float(steeringParameter) #left
-        print "Going left",steeringValue
+def twistVehicle(orientation, steeringParameter, tparameter):
 
-    elif(orientation > 180):
-        Right = mapFunction(Right, 360, 180, 0.5, 0.14)
-        steeringValue = Right #float(steeringParameter) #right
-        print "Going right",steeringValue
 
-    else:
+    if(orientation <= 5 or orientation >= 355):
         steeringValue = 0.5
         print "Going straight"
 
-    throttleValue = 0.547 + tparameter
+    elif(orientation > 0 and orientation < 180):
+        Left =(orientation*0.5)/90
+        steeringValue = 0.35 - Left - float(steeringParameter) #left
+        if(steeringValue < 0.2):
+            sterringValue = 0.2
+
+        print "Going left",steeringValue
+        #print Left
+
+    elif(orientation >= 180 and orientation < 360):
+        Right = ((orientation-360)*0.5)/(270-360)
+        steeringValue = 0.65 + Right + float(steeringParameter) #right
+        if(steeringValue > 0.8):
+            steeringValue = 0.8
+
+        print "Going right",steeringValue
+        #print Right
+
+    else:
+        steeringValue = 0.5
+        #print "Going straight"
+
+    throttleValue = 0.547 + float(tparameter)
     moveMsg = Twist()
     moveMsg.angular.z = steeringValue
     moveMsg.linear.x = throttleValue
@@ -65,11 +111,11 @@ def twistVehicle(orientation, steeringParameter,tparameter):
 
 def fixCallback(data, args):
 
-    steeringParameter = args[0]
-    tparameter = args[1]
-    orientation = args[2].orientation
+
+    orientation = args[0].orientation
+    steeringParameter = args[1]
+    tparameter = args[2]
     twistVehicle(orientation, steeringParameter, tparameter)
-    print orientation
 
 
 def stopCar():
@@ -99,11 +145,13 @@ def compassCallback(data, compass):
         compass.orientation = compass.orientation + 2*math.pi
 
     if(compass.orientation > 2*math.pi):
-        compass.orientation = compass.orientation - 2*math.py
+        compass.orientation = compass.orientation - 2*math.pi
 
-     compass.orientation = math.degrees(compass.orientation)
 
-    #print compass.orientation
+
+    compass.orientation = math.degrees(compass.orientation)
+
+    #print "North:", compass.orientation
 
 def startRoutine():
 
@@ -118,11 +166,11 @@ if __name__ =='__main__':
 
     try:
         steeringParameter = sys.argv[1]
-        tparameter = sys.argv[2]
+	tparameter = sys.argv[2]
         gps = gpsData()
         compass = compassObject()
 
-        rospy.init_node('gps_path_planner', anonymous=True)
+        rospy.init_node('go_north', anonymous=True)
         global pubping
         pubping = rospy.Publisher('/ping', String, queue_size=10)
         t = threading.Thread(target=ping_sender, args=(0,))
@@ -131,8 +179,8 @@ if __name__ =='__main__':
         global pub
         pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
         startRoutine()
+        FixcallbackArguments = [compass, steeringParameter, tparameter]
         rospy.Subscriber('/arduino/compass', Float32, compassCallback, compass)
-        FixcallbackArguments = [steeringParameter, tparameter, compass]
         time.sleep(1)
         rospy.Subscriber('/fix', NavSatFix, fixCallback, FixcallbackArguments)
         rospy.spin()
