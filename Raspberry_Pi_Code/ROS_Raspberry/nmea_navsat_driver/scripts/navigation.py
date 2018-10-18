@@ -81,7 +81,7 @@ def mapFunction(OldValue, OldMin, OldMax, NewMin, NewMax):
 
 
 
-def twistVehicle(currentHeading, steeringParameter, tparameter):
+def twistVehicle(headingError, steeringParameter, tparameter):
 
     if (headingError < -180):
         headingError += 360
@@ -132,7 +132,7 @@ def fixCallback(data, args):
     tparameter = args[5]
 
     points_distance = getDistance(float(currentLong), float(targetLong), float(currentLat), float(targetLat))
-    headingError = getHeadingError(currentHeading, currentLat, currentLong, targetLat, targetLong)
+    headingError = getHeadingError(float(currentHeading),float(currentLat), float(currentLong), float(targetLat), float(targetLong))
 
 
     if(points_distance < 5):
@@ -180,7 +180,7 @@ def compassCallback(data, compass):
     if(compass.orientation > 2*math.pi):
         compass.orientation = compass.orientation - 2*math.py
 
-     compass.orientation = math.degrees(compass.orientation)
+    compass.orientation = math.degrees(compass.orientation)
 
     #print compass.orientation
 
@@ -221,4 +221,4 @@ if __name__ =='__main__':
 
     except IndexError:
 
-        print "Usage: goalLatitude goalLongitude steeringAdjustValue throttleAdjustValue"
+	print "Usage: goalLatitude goalLongitude steeringAdjustValue throttleAdjustValue"
