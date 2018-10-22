@@ -3,8 +3,11 @@
 from pykml import parser
 import os
 import re
+import sys
 
-with open("Camino_1.kml") as f:
+path = sys.argv[1]
+
+with open(path) as f:
 
     doc = parser.parse(f).getroot()
 
@@ -20,7 +23,7 @@ index = 0
 
 for i in range(0, len(raw_data)/2):
 
-    #print 'rosrun nmea_navsat driver ' +  raw_data[index+1] + ' ' +  raw_data[index] + ' 0' + ' 0'
+    print 'rosrun nmea_navsat driver ' +  raw_data[index+1] + ' ' +  raw_data[index] + ' 0' + ' 0'
     #os.sys('rosrun nmea_navsat driver ' +  raw_data[index+1] + ' ' +  raw_data[index] + ' 0' + ' 0')
     print 'The car reached the waypoint' + ' ' + str(i)
     index = index+2
