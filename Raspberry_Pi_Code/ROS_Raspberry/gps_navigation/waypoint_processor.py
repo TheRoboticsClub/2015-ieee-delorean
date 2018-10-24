@@ -21,6 +21,7 @@ raw_data = re.split(",| ", raw_data)
 del raw_data[len(raw_data)-1]
 
 #print raw_data
+#os.system('rosrun gps_navigation car_path_logger.py')
 
 index = 0
 
