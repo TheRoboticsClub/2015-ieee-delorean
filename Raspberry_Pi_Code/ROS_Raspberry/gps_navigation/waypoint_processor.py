@@ -6,7 +6,7 @@ import re
 import sys
 import rospy
 
-path = sys.argv[1]
+path = sys.argv[1] #this is the kml file from google eath. Must be an exported path.
 steeringParameter = sys.argv[2]
 tparameter = sys.argv[3]
 
