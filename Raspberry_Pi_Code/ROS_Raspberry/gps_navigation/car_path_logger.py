@@ -8,9 +8,6 @@ from sensor_msgs.msg import NavSatFix
 
 #ros necessary declarations
 
-initFile()
-rospy.init_node('car_path_logger', anonymous=True)
-rospy.subscriber('/fix', NavSatFix, append_fix)
 
 def initFile():
 
@@ -33,6 +30,7 @@ def append_fix(data):
 
     new_longitude = data.longitude
     new_latitude = data.latitude
+    new_coordinates = str(new_longitude) + ',' + str(new_latitude) + ',' + '0'
 
     tree = etree.parse("car_real_path.kml")
     root = tree.getroot()
@@ -48,4 +46,7 @@ def append_fix(data):
     tree.write('car_real_path.kml', xml_declaration=True)
 
 
+initFile()
+rospy.init_node('car_path_logger', anonymous=True)
+rospy.Subscriber('/fix', NavSatFix, append_fix)
 rospy.spin()
