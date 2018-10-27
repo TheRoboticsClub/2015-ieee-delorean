@@ -8,7 +8,7 @@ from picamera import PiCamera
 camera = PiCamera()
 ##constants
 
-destination = '~/Vídeos'
+destination = '/home/miguel/Vídeos'
 
 
 def cameraSettings():
@@ -18,7 +18,7 @@ def cameraSettings():
 
 def record():
     filename = os.path.join(destination, dt.datetime.now().strftime('%Y-%m-%d_%H.%M.%S.h264'))
-    camera.start_recording('filename','H264', 'none',1)
+    camera.start_recording(filename)
 
 def stopRecord():
     camera.stop_recording(splitter_port = 1)
