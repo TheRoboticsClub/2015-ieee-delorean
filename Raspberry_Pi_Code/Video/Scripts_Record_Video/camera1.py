@@ -18,7 +18,7 @@ def cameraSettings():
 
 def record():
     filename = os.path.join(destination, dt.datetime.now().strftime('%Y-%m-%d_%H.%M.%S.h264'))
-    camera.start_recording(filename)
+    camera.start_recording(filename, format='h264', quality = 10)
 
 def stopRecord():
     camera.stop_recording(splitter_port = 1)
