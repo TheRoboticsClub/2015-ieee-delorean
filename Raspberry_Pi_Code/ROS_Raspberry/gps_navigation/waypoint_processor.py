@@ -27,7 +27,7 @@ index = 0
 
 for i in range(0, len(raw_data)/2):
 
-    command = 'rosrun nmea_navsat_driver ' + 'navigation.py ' +  raw_data[index+1] + ' ' +  raw_data[index] + ' ' + steeringParameter  + ' ' + tparameter 
+    command = 'rosrun gps_navigation ' + 'navigation.py ' +  raw_data[index+1] + ' ' +  raw_data[index] + ' ' + steeringParameter  + ' ' + tparameter 
     print command
     os.system(command)
     print 'The car reached the waypoint' + ' ' + str(i)
