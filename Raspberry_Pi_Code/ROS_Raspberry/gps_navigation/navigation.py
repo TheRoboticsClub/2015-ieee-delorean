@@ -190,7 +190,7 @@ def startRoutine():
     moveMsg.angular.z = 0.5
     moveMsg.linear.x = 0.547
     pub.publish(moveMsg)
-    time.sleep(2)
+    #time.sleep(2)
 
 
 if __name__ =='__main__':
@@ -214,7 +214,7 @@ if __name__ =='__main__':
         startRoutine()
         FixcallbackArguments = [goalLatitude, goalLongitude, gps, compass, steeringParameter, tparameter]
         rospy.Subscriber('/arduino/compass', Float32, compassCallback, compass)
-        time.sleep(1)
+        #time.sleep(1)
         rospy.Subscriber('/fix', NavSatFix, fixCallback, FixcallbackArguments)
         rospy.spin()
         rospy.on_shutdown(stopCar)
