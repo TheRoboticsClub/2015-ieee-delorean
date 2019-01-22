@@ -7,7 +7,7 @@ from picamera import PiCamera
 
 camera = PiCamera()
 ##constants
-#El path se debe de modificar
+
 destination = '/home/miguel/Vídeos'
 
 
@@ -28,5 +28,6 @@ if __name__ == '__main__':
     ##camera = PiCamera()
     cameraSettings()
     record()
+
     sleep(30) #Tiempo de grabación
     stopRecord()
