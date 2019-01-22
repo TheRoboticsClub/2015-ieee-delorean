@@ -1,0 +1,6 @@
+<launch>
+  <node pkg="car_drivers" type="timed_roslaunch.sh" 
+    args="10 car_drivers car_drivers.launch" 
+    name="timed_roslaunch" output="screen">
+  </node>
+</launch>

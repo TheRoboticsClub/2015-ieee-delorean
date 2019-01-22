@@ -1,0 +1,12 @@
+<launch>
+  <node pkg='nmea_navsat_driver' type='nmea_serial_driver' name='nmea_serial_driver'>
+    <param name='port' value='/dev/gps'/>
+    <param name='baud' value='115200'/>
+  </node>
+
+  <node pkg='topic_tools' type='relay' name='rename_topic' args='/fix /gps/fix'>
+  </node>
+
+  <node pkg='nmea_navsat_driver' type='gps_distance_bearing.py' name='distance_bearing_node'>
+  </node>
+</launch>

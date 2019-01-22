@@ -28,5 +28,6 @@ if __name__ == '__main__':
     ##camera = PiCamera()
     cameraSettings()
     record()
-    sleep(30)
+
+    sleep(30) #Tiempo de grabación
     stopRecord()
