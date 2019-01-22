@@ -1,0 +1,5 @@
+<launch>
+  <node pkg='gps_navigation' type='car_path_logger.py' name='car_path_logger' 
+  <arg name='my_args'/>
+  <node pkg='gps_navigation' type='waypoint_processor.py' name='waypoint_processor' args='$(arg my_args)'/>
+</launch>

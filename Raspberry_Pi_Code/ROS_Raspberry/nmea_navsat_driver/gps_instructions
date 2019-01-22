@@ -57,3 +57,19 @@ now, to check Odometry messages, we can do:
 
 rostopic echo /odom
 
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+to run the basic gps drivers, just do:
+
+roslaunch nmea_navsat_driver gps_driver.py
+
+this will launch the nmea_serial_driver, the relay topic tool and the distance and bearing car calculation.
+
+To run the goal reach node, run:
+
+rosrun nmea_navsat_driver gps_path_planning.py <goal_latitude <goal_longitude>
+
+this changes are discussed on the wiki
+
