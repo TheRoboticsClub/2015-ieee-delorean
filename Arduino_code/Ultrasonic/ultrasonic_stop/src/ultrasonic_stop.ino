@@ -1,14 +1,10 @@
+//Código implementado para Arduino uno
 #include <Arduino.h>
 #include <NewPing.h>
 
 const int ledPIN = 3;
 const int MaxDistance = 200;
 const int SONAR_NUM = 3;      // Number of sensors.
-/*const int UltrasonicPin = 6;
-const int ECHO_PIN = 5;
-const int MaxDistance = 200;
-
-/*NewPing sonar(UltrasonicPin, ECHO_PIN, MaxDistance);
 /*Hagamos un array de ultrasonidos */
 NewPing sonar[SONAR_NUM] = {   // Sensor object array.
   NewPing(12, 13, MaxDistance), // Each sensor's trigger pin, echo pin, and max distance to ping.
