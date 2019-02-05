@@ -39,7 +39,7 @@ void checkSensorUpdate(){
 void sensor(){
   
   deltaMillis = millis()- lastMillis; //This is the time that passed between sensor activation (magnet passing)
-  vel = ((0.4048/2.75)/(deltaMillis/1000)); //speed of the car
+  vel = (0.4048/(deltaMillis/1000))/2.75; //speed of the car
   //Serial.print(vel);
   //Serial.println(" meters/second");
   lastMillis = millis();
