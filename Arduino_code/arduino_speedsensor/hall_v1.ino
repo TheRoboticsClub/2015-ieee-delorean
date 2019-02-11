@@ -1,4 +1,6 @@
 #include <SimpleTimer.h>
+#include <ros.h>
+#include <std_msgs/Float32.h>
 
 unsigned long lastMillis;
 float vel;
@@ -7,8 +9,17 @@ float lastSensorUpdate;
 
 SimpleTimer timer;
 
+ros::NodeHandle nh;
+std_msgs::Float32 float_msg;
+ros::Publisher chatter("/arduino/speed", &float_msg);
+
 
 void setup() {
+  
+  nh.getHardware()->setBaud(9600);
+  nh.initNode();
+  nh.advertise(chatter);
+  
   deltaMillis = 1000000.0;
   lastMillis = millis();
   lastSensorUpdate = millis();
@@ -44,5 +55,8 @@ void sensor(){
   //Serial.println(" meters/second");
   lastMillis = millis();
   lastSensorUpdate = millis();
+  float_msg.data = vel;
+  chatter.publish( &float_msg );
+  nh.spinOnce();
 }
 
