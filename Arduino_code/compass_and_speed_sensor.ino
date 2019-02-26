@@ -12,6 +12,8 @@ float vel;
 float deltaMillis;
 float lastSensorUpdate;
 
+const float wheel_radius = 0.0644
+
 SimpleTimer timer;
 
 ros::NodeHandle nh;
@@ -117,7 +119,7 @@ void checkSensorUpdate(){
 void sensor(){
   
   deltaMillis = millis()- lastMillis; //This is the time that passed between sensor activation (magnet passing)
-  vel = (0.4048*PI/(deltaMillis/1000))/2.75; //speed of the car
+  vel = (2*PI*wheel_radius/(deltaMillis/1000))/2.75; //speed of the car
   //Serial.print(vel);
   //Serial.println(" meters/second");
   lastMillis = millis();
