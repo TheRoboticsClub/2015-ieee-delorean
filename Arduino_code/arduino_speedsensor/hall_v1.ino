@@ -35,6 +35,9 @@ void loop() {
   checkSensorUpdate();
   Serial.print(vel);
   Serial.println(" meters/second");
+  float_msg.data = vel;
+  chatter.publish( &float_msg );
+  nh.spinOnce();
   delay(500);
 
 }
@@ -50,13 +53,11 @@ void checkSensorUpdate(){
 void sensor(){
   
   deltaMillis = millis()- lastMillis; //This is the time that passed between sensor activation (magnet passing)
-  vel = (0.4048*PI/(deltaMillis/1000))/2.75; //speed of the car
+  vel = (2*PI*wheel_radius/(deltaMillis/1000))/2.75; //speed of the car
   //Serial.print(vel);
   //Serial.println(" meters/second");
   lastMillis = millis();
   lastSensorUpdate = millis();
-  float_msg.data = vel;
-  chatter.publish( &float_msg );
-  nh.spinOnce();
+
 }
 
