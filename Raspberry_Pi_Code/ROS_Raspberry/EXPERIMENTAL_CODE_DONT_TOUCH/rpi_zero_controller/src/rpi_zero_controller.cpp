@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     geometry_msgs::Twist t_msg;
     t_msg.linear.x = 0.5;
     t_msg.angular.z = 0.5;
-    vel_pub.publish(t_msg;)
+    vel_pub.publish(t_msg);
     rate.sleep();
     ros::spinOnce();
   }
